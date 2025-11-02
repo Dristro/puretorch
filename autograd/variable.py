@@ -1,7 +1,6 @@
 import weakref
 import numpy as np
 from typing import (
-    Self,
     List,
     Union,
     Tuple,
@@ -29,42 +28,45 @@ from .ops import (
     VariableSum,
 )
 
+
 class Variable:
     def __init__(
-            self,
-            data: Union[int, float, list, tuple, np.ndarray, 'Variable'],
-            requires_grad: bool = False,
-            grad_fn: Optional[Function] = None,
-            is_leaf: bool = True,
-        ):
+        self,
+        data: Union[int, float, list, tuple, np.ndarray, 'Variable'],
+        requires_grad: bool = False,
+        grad_fn: Optional[Function] = None,
+        is_leaf: bool = True,
+    ):
+
         self._data: np.ndarray = data if isinstance(data, np.ndarray) else np.array(data)
         self.grad: Optional[np.ndarray] = None
         self.grad_fn = grad_fn  # function that produced this variable (None if leaf variable)
         self.requires_grad = bool(requires_grad and is_grad_enabled())  # using the context manager
         self.is_leaf = is_leaf
         self._version = 0
-        
+
         self._shape = self._data.shape
         self._ndim = self._data.ndim
         self._dtype = self._data.dtype
         self._backward_hooks = []
-        self._self_weakref = weakref.ref(self)  # weakref to self for use in saved_tensors to avoid cycles
+        self._self_weakref = weakref.ref(self)  # saved_tensors avoid cycles
 
     def __repr__(self):
-        return f"Variable(shape={self.shape}, dtype={self._data.dtype}, requires_grad={self.requires_grad})"
+        return f"Variable(shape={self.shape}, dtype={self._data.dtype}"\
+                ", requires_grad={self.requires_grad})"
 
     def zero_grad(self):
         self.grad = None
-    
-    def detach(self) -> Self:
+
+    def detach(self) -> "Variable":
         return type(self)(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
         return Variable(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
 
-    def requires_grad_(self, val=True) -> Self:
+    def requires_grad_(self, val=True) -> None:
+        """In-place requires-grad change"""
         self.requires_grad = val
-        return type(self)(self)
-        return self
-    
+
+
     @property
     def data(self) -> np.ndarray:
         v = self._data.view()
@@ -81,19 +83,19 @@ class Variable:
     @property
     def shape(self) -> Tuple:
         return self._shape
-    
+
     @property
     def ndim(self) -> int:
         return self._ndim
-    
+
     @property
     def dtype(self) -> np.dtype:
         return self._dtype
-    
+
     def numpy(self) -> np.ndarray:
         """convert into numpy.ndarray"""
         return self._data
-    
+
     def tolist(self) -> List:
         """convert into python-list"""
         return list(self._data)
@@ -110,11 +112,11 @@ class Variable:
         """
         if not self.requires_grad:
             raise RuntimeError("Called .backward() on a tensor that doesn't require grad.")
-        
+
         # assume grad is one if not provided
         if gradient is None:
             gradient = np.ones_like(self._data)
-        
+
         # build topo sort
         topo = []
         visited = set()
@@ -137,7 +139,7 @@ class Variable:
             grad = grads.get(id(_tensor))
             if grad is None:
                 continue
-            
+
             # processing a leaf
             if _tensor.is_leaf:
                 if _tensor.grad is None:
@@ -146,7 +148,7 @@ class Variable:
                     _tensor.grad += grad  # accumilate grad
                 for hook in _tensor._backward_hooks:
                     hook(_tensor)  # call all hooks (if given)
-            
+
             # processing intermediate tensors
             else:
                 # version safety check (detects illegal in-place between forward and backward)
@@ -161,27 +163,27 @@ class Variable:
                             )
 
                 grad_out = _tensor.grad_fn.backward(_tensor.grad_fn._ctx, grad)  # op-wise backward
-                
+
                 # logic for any function (even custom ones, defined by user)
                 if not isinstance(grad_out, tuple):
                     grad_out = (grad_out,)
-                
+
                 for parent, g_out in zip(_tensor.grad_fn._parents, grad_out):  # number of params need-not be 2, thus loop
                     if g_out is None:
                         continue
-                
+
                     # inverse-brodcasing, reduce gradient to parent shape (if needed)
                     g_out = _unbroadcast(g_out, parent.shape)
-                
+
                     if id(parent) not in grads:
                         grads[id(parent)] = g_out  # put new tensor with grad in dict
-                
+
                     else:
                         grads[id(parent)] += g_out # accumulate grad, if tensor alr in dict
 
     def _bump_version(self):
         self._version += 1
-    
+
     def _check_inplace_ok(self):
         if self.requires_grad and not self.is_leaf:
             raise RuntimeError("In-place modification on a non-leaf Variable that requires grad.")
@@ -191,39 +193,38 @@ class Variable:
         self._backward_hooks.append(fn)
 
     # math operators
-    def __add__(self, other) -> Self:
+    def __add__(self, other) -> "Variable":
         return add(self, other)
 
-    def __radd__(self, other) -> Self:
+    def __radd__(self, other) -> "Variable":
         return add(other, self)
 
-    def __mul__(self, other) -> Self:
+    def __mul__(self, other) -> "Variable":
         return mul(self, other)
 
-    def __rmul__(self, other) -> Self:
+    def __rmul__(self, other) -> "Variable":
         return mul(other, self)
 
-    def __sub__(self, other) -> Self:
+    def __sub__(self, other) -> "Variable":
         return sub(self, other)
 
-    def __rsub__(self, other) -> Self:
+    def __rsub__(self, other) -> "Variable":
         return sub(other, self)
 
-    def __truediv__(self, other) -> Self:
+    def __truediv__(self, other) -> "Variable":
         return div(self, other)
 
-    def __rtruediv__(self, other) -> Self:
+    def __rtruediv__(self, other) -> "Variable":
         return div(other, self)
 
-    def __neg__(self) -> Self:
+    def __neg__(self) -> "Variable":
         return neg(self)
 
-    def __matmul__(self, other) -> Self:
+    def __matmul__(self, other) -> "Variable":
         return matmul(self, other)
-    
-    def __pow__(self, exp: Union[int, float]) -> Self:
-        return pow(self, exp)
 
+    def __pow__(self, exp: Union[int, float]) -> "Variable":
+        return pow(self, exp)
 
     # variable comparisons
     def _coerce_other(self, other):
@@ -234,29 +235,30 @@ class Variable:
             return other
         else:
             return NotImplementedError(f"other must be either: (int, float, np.ndarray, list), got: {type(other)}")
+
     def __eq__(self, other) -> bool:
         other = self._coerce_other(other)
         return np.equal(self.data, other)
-    
-    def __lt__(self, other):
+
+    def __lt__(self, other) -> bool:
         other = self._coerce_other(other)
         return np.less(self.data, other)
-    
-    def __gt__(self, other):
+
+    def __gt__(self, other) -> bool:
         other = self._coerce_other(other)
         return np.greater(self.data, other)
-    
-    def __le__(self, other):
+
+    def __le__(self, other) -> bool:
         other = self._coerce_other(other)
         return np.less_equal(self.data, other)
-    
-    def __ge__(self, other):
+
+    def __ge__(self, other) -> bool:
         other = self._coerce_other(other)
         return np.greater_equal(self.data, other)
-    
+
     # inplace operators
 
-    def __iadd__(self, other) -> Self:
+    def __iadd__(self, other) -> "Variable":
         self._check_inplace_ok()
         if isinstance(other, Variable):
             np.add(self._data, other._data, out=self._data, casting="unsafe")
@@ -266,7 +268,7 @@ class Variable:
         return type(self)(self)
         return self
 
-    def __isub__(self, other) -> Self:
+    def __isub__(self, other) -> "Variable":
         self._check_inplace_ok()
         if isinstance(other, Variable):
             np.subtract(self._data, other._data, out=self._data, casting="unsafe")
@@ -276,7 +278,7 @@ class Variable:
         return type(self)(self)
         return self
 
-    def __imul__(self, other) -> Self:
+    def __imul__(self, other) -> "Variable":
         self._check_inplace_ok()
         if isinstance(other, Variable):
             np.multiply(self._data, other._data, out=self._data, casting="unsafe")
@@ -286,7 +288,7 @@ class Variable:
         return type(self)(self)
         return self
 
-    def __itruediv__(self, other) -> Self:
+    def __itruediv__(self, other) -> "Variable":
         self._check_inplace_ok()
         if isinstance(other, Variable):
             np.true_divide(self._data, other._data, out=self._data, casting="unsafe")
@@ -296,7 +298,7 @@ class Variable:
         return type(self)(self)
         return self
 
-    def __ipow__(self, other) -> Self:
+    def __ipow__(self, other) -> "Variable":
         self._check_inplace_ok()
         if isinstance(other, Variable):
             np.power(self._data, other._data, out=self._data, casting="unsafe")
@@ -316,7 +318,7 @@ class Variable:
             self._data[key] = value
         self._bump_version()
 
-    def squeeze(self, dim: Optional[int] = None, in_place: bool = True)  -> Union[Self, None]:
+    def squeeze(self, dim: Optional[int] = None, in_place: bool = True)  -> Union["Variable", None]:
         """
         removes dims with no entries
         Args:
@@ -326,28 +328,28 @@ class Variable:
         return type(self)(self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim))
         return self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim)
 
-
     # tensor functions
-    def reshape(self, shape: tuple) -> Self:
+
+    def reshape(self, shape: tuple) -> "Variable":
         return reshape(self, shape=shape)
 
     @property
-    def T(self) -> Self:
+    def T(self) -> "Variable":
         return transpose(self)
-    
-    def sum(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> Self:
+
+    def sum(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> "Variable":
         return tensor_sum(a=self, dim=dim, keepdims=keepdims)
-    
-    def mean(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> Self:
+
+    def mean(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> "Variable":
         return mean(a=self, dim=dim, keepdims=keepdims)
-    
-    def exp(self) -> Self:
+
+    def exp(self) -> "Variable":
         return exp(a=self)
-    
-    def log(self) -> Self:
+
+    def log(self) -> "Variable":
         return log(a=self)
 
-    def _relu(self) -> Self:  # priv, will be used in Tensor (not needed for variable)
+    def _relu(self) -> "Variable":  # priv, will be used in Tensor (not needed for variable)
         return relu(a=self)
 
     def add_(self, other):
@@ -390,6 +392,7 @@ def _unbroadcast(grad: np.ndarray, shape: Tuple[int, ...]) -> np.ndarray:
             grad = grad.sum(axis=i, keepdims=True)
     return grad.reshape(shape)
 
+
 def enforce_tensor(x) -> Variable:
     """
     Converts 'x' into a Tensor instance if not already.
@@ -399,10 +402,11 @@ def enforce_tensor(x) -> Variable:
         return x
     return Variable(np.array(x, dtype=float), requires_grad=False, is_leaf=True)
 
+
 def _wrap_forward(fn_cls: type, *parents, result_cls=None,  **kwargs) -> Variable:
     ctx = Context()
     parents_data = [parent._data for parent in parents]
-    
+
     # forward
     out_data = fn_cls.forward(ctx, *parents_data, **kwargs)
 
@@ -426,7 +430,7 @@ def _wrap_forward(fn_cls: type, *parents, result_cls=None,  **kwargs) -> Variabl
             device=devices[-1],  # get last device from parents
                                  # FIX-NEEDED: give priority to a device (or) check if all parents are on same device
         )
-    
+
     # Create output as variable
     else:
         out = Variable(
@@ -442,7 +446,7 @@ def _wrap_forward(fn_cls: type, *parents, result_cls=None,  **kwargs) -> Variabl
     fn._parents = parents
     ctx._version_snapshot = tuple(p._version for p in parents)
     out.grad_fn = fn
-    
+
     return out
 
 
@@ -451,57 +455,70 @@ def add(a, b):
     b = enforce_tensor(b)
     return _wrap_forward(Add, a, b)
 
+
 def sub(a,b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Sub, a, b)
+
 
 def mul(a,b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Mul, a, b)
 
+
 def div(a,b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Div, a, b)
 
+
 def neg(a):
     a = enforce_tensor(a)
     return _wrap_forward(Neg, a)
+
 
 def matmul(a,b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(MatMul, a, b)
 
+
 def tensor_sum(a, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False):
     a = enforce_tensor(a)
     return _wrap_forward(VariableSum, a, dim=dim, keepdims=keepdims)
+
 
 def mean(a, dim=None, keepdims=False):
     a = enforce_tensor(a)
     return _wrap_forward(Mean, a, dim=dim, keepdims=keepdims)
 
+
 def transpose(a):
     a = enforce_tensor(a)
     return _wrap_forward(Transpose, a)
+
 
 def reshape(a, shape: tuple):
     a = enforce_tensor(a)
     return _wrap_forward(Reshape, a, shape=shape)
 
+
 def relu(a):
     a = enforce_tensor(a)
     return _wrap_forward(ReLU, a)
+
 
 def pow(a, exponent):
     a = enforce_tensor(a)
     return _wrap_forward(Pow, a, exponent=exponent)
 
+
 def exp(a):
     a = enforce_tensor(a)
     return _wrap_forward(Exp, a)
+
 
 def log(a):
     a = enforce_tensor(a)
