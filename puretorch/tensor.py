@@ -2,6 +2,7 @@ import numpy as np
 from typing import Union, Optional
 from autograd import Variable, Function
 
+
 class Tensor(Variable):
     def __init__(
         self,
@@ -30,24 +31,36 @@ class Tensor(Variable):
         self._device = device
 
     @property
-    def device(self):  # for future gpu support
+    def device(self):
         return self._device
 
-    @property
     def item(self):
+        """
+        Returns data within tensor.
+        Same as accessing `.data`.
+        """
         return self.data
-    
-    def item(self):  # another way to get item
-        return self.data
-    
+
     def relu(self) -> "Tensor":
-        return self._relu()
+        """
+        **Deprication warning**:
+        This function will be removed in the next release.
+        Please use `nn.functional.relu()`.
+
+        Computes relu and returns new instance.
+        Returns:
+            Tensor
+        """
+        return Tensor(
+            data=self._relu(),
+            requires_grad=self.requires_grad,
+            is_leaf=False,
+        )
 
     def __getitem__(self, idx: int):
         return self._data[idx]
-        
+
     def __repr__(self):
-        #return f"tensor({self.data}, requires_grad={self.requires_grad}, device={self.device}, dtype={self.dtype})"
         formatted_data = np.array2string(
             self.data,
             precision=4,

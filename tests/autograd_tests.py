@@ -1,14 +1,14 @@
 # tests/autograd_tests.py
 import os
 import sys
-sys.path.append(os.getcwd())
-
 import pytest
 import numpy as np
-from utils import make_dot
+sys.path.append(os.getcwd())
 from autograd import Variable
 
+
 def test_add():
+
     t1 = Variable(np.random.randn(3, 4), requires_grad=True, is_leaf=True)
     t2 = Variable(np.random.randn(3, 4), requires_grad=True, is_leaf=True)
 
@@ -366,3 +366,8 @@ def test_data_reassign_is_tracked():
     import pytest
     with pytest.raises(RuntimeError):
         out.backward()
+
+if __name__ == "__main__":
+    import inspect
+    print(inspect.getsource(Variable))
+

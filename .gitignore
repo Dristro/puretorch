@@ -4,4 +4,7 @@ dev_notebooks
 __pycache__/
 **/*.pdf
 puretorch.egg-info/
+lib/
+build/
+**/MakeFile
 

@@ -3,6 +3,7 @@
 
 from graphviz import Digraph
 
+
 def _tensor_label(t):
     req = "req_grad" if getattr(t, "requires_grad", False) else "no_grad"
     shape = getattr(t, "shape", None)
@@ -10,11 +11,14 @@ def _tensor_label(t):
     grad_shape = grad_shape.shape if hasattr(grad_shape, "shape") else None
     return f"Tensor\nshape={tuple(shape)}, {req}, {grad_shape}"
 
+
 def _tensor_id(t):  # stable-ish node id
     return f"T{id(t)}"
 
+
 def _fn_id(fn):
     return f"F{id(fn)}"
+
 
 def make_dot(
     output_tensor,
@@ -28,7 +32,7 @@ def make_dot(
 ):
     """
     **Experimental**, this function is likely to change in later updates.
-    
+
     Draws trace for output_tensor.
 
     Args:

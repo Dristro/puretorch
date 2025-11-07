@@ -1,0 +1,3 @@
+-std=c++17
+-Ilib/eigen-5.0.0
+-Iautograd/cpp

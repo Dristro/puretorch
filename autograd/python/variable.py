@@ -1,6 +1,8 @@
+from unittest import result
 import weakref
 import numpy as np
 from typing import (
+    Type,
     List,
     Union,
     Tuple,
@@ -28,22 +30,41 @@ from .ops import (
     VariableSum,
 )
 
+_data_dtype = Union[int, float, list, tuple, np.ndarray, 'Variable']
+
+
+def logger(message: str, type_: str = "INFO"):
+    print(f"[{type_}]: {message}")
+
 
 class Variable:
+    """Auto grad variable class."""
+
     def __init__(
         self,
-        data: Union[int, float, list, tuple, np.ndarray, 'Variable'],
+        data: _data_dtype,
         requires_grad: bool = False,
         grad_fn: Optional[Function] = None,
         is_leaf: bool = True,
     ):
+        """
+        Variable constructor.
+
+        Args:
+            data: data stored in variable
+            requires_grad: if variable instance requires gradient tracking
+            grad_fn: function used to arrive at variable (None if leaf)
+            is_leaf: is insstance leaf variable or not
+        Returns:
+            None
+        """
 
         self._data: np.ndarray = data if isinstance(data, np.ndarray) else np.array(data)
-        self.grad: Optional[np.ndarray] = None
-        self.grad_fn = grad_fn  # function that produced this variable (None if leaf variable)
-        self.requires_grad = bool(requires_grad and is_grad_enabled())  # using the context manager
+        self._grad: Optional[np.ndarray] = None
+        self.grad_fn: Optional[Function] = grad_fn  # function producing self
+        self.requires_grad = bool(requires_grad and is_grad_enabled())
         self.is_leaf = is_leaf
-        self._version = 0
+        self._version: int = 0
 
         self._shape = self._data.shape
         self._ndim = self._data.ndim
@@ -53,35 +74,59 @@ class Variable:
 
     def __repr__(self):
         return f"Variable(shape={self.shape}, dtype={self._data.dtype}"\
-                ", requires_grad={self.requires_grad})"
+               f", requires_grad={self.requires_grad})"
 
-    def zero_grad(self):
-        self.grad = None
+    def zero_grad(
+        self,
+        set_to_none: bool = True,
+    ) -> None:
+        """
+        Args:
+            set_to_none: sets current grad to none if True
+        """
+        if set_to_none:
+            self._grad = None
+        else:
+            self._grad = np.zeros_like(self.data)
 
     def detach(self) -> "Variable":
+        """Returns new instance of Variable, not part of graph."""
         return type(self)(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
-        return Variable(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
+        # return Variable(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
+        # FIX: remove in next version ^
 
     def requires_grad_(self, val=True) -> None:
         """In-place requires-grad change"""
         self.requires_grad = val
 
-
     @property
     def data(self) -> np.ndarray:
+        """
+        Data in Variable instance.\n
+        Returned data is immutable.
+        """
         v = self._data.view()
         v.setflags(write=False)
         return v
 
     @data.setter
-    def data(self, new):
+    def data(self, new: _data_dtype):
+        """
+        WARNING; this operation will bump the version of Variable instance,
+        which may result in unexpected behaviour (errors too) during backprop.
+        Please use this this carefully.
+        """
         self._check_inplace_ok()
         new_arr = new if isinstance(new, np.ndarray) else np.array(new)
         self._data = new_arr
         self._bump_version()
 
     @property
-    def shape(self) -> Tuple:
+    def grad(self) -> Optional[np.ndarray]:
+        return self._grad
+
+    @property
+    def shape(self) -> Tuple[int, ...]:
         return self._shape
 
     @property
@@ -93,11 +138,11 @@ class Variable:
         return self._dtype
 
     def numpy(self) -> np.ndarray:
-        """convert into numpy.ndarray"""
+        """Convert into numpy.ndarray"""
         return self._data
 
     def tolist(self) -> List:
-        """convert into python-list"""
+        """Convert into python-list"""
         return list(self._data)
 
     def backward(self, gradient: Optional[np.ndarray] = None):
@@ -120,12 +165,14 @@ class Variable:
         # build topo sort
         topo = []
         visited = set()
+
         def build(_tensor: 'Variable'):
             if id(_tensor) in visited:
                 return
             visited.add(id(_tensor))
             if _tensor.grad_fn is not None:
-                for child in _tensor.grad_fn._parents:
+                logger(dir(_tensor.grad_fn), type_ = "DEBUG@168")  # DEBUG7
+                for child in _tensor.grad_fn.ctx.saved_data:#_parents:
                     build(child)
             topo.append(_tensor)
         build(self)
@@ -143,7 +190,7 @@ class Variable:
             # processing a leaf
             if _tensor.is_leaf:
                 if _tensor.grad is None:
-                    _tensor.grad = grad   # init grad
+                    _tensor._grad = grad   # init grad
                 else:                     # (or)
                     _tensor.grad += grad  # accumilate grad
                 for hook in _tensor._backward_hooks:
@@ -179,7 +226,7 @@ class Variable:
                         grads[id(parent)] = g_out  # put new tensor with grad in dict
 
                     else:
-                        grads[id(parent)] += g_out # accumulate grad, if tensor alr in dict
+                        grads[id(parent)] += g_out  # accumulate grad, if tensor alr in dict
 
     def _bump_version(self):
         self._version += 1
@@ -286,7 +333,6 @@ class Variable:
             np.multiply(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
         return type(self)(self)
-        return self
 
     def __itruediv__(self, other) -> "Variable":
         self._check_inplace_ok()
@@ -296,7 +342,6 @@ class Variable:
             np.true_divide(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
         return type(self)(self)
-        return self
 
     def __ipow__(self, other) -> "Variable":
         self._check_inplace_ok()
@@ -306,7 +351,6 @@ class Variable:
             np.power(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
         return type(self)(self)
-        return self
 
     # data logic
 
@@ -318,17 +362,23 @@ class Variable:
             self._data[key] = value
         self._bump_version()
 
-    def squeeze(self, dim: Optional[int] = None, in_place: bool = True)  -> Union["Variable", None]:
+    def squeeze(
+        self,
+        dim: Optional[int] = None,
+        in_place: bool = True,
+    ) -> Optional["Variable"]:
         """
-        removes dims with no entries
+        Removes dims with no entries
         Args:
-            dim: dimention to squeeze (if none, all dims that can be squeezed will be squeezed)
-            in_place: returns new instace (squeezed) if False, modifies current instance if True
+            dim (int): dimention to squeeze (if none, all dims are squeezed)
+            in_place (bool): squeeze in-place
+        Returns:
+            Variable, if in_place = False
         """
-        return type(self)(self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim))
-        return self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim)
+        out = self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim)
+        return type(self)(out)
 
-    # tensor functions
+    # ====== Tensor functions ====== #
 
     def reshape(self, shape: tuple) -> "Variable":
         return reshape(self, shape=shape)
@@ -349,32 +399,55 @@ class Variable:
     def log(self) -> "Variable":
         return log(a=self)
 
-    def _relu(self) -> "Variable":  # priv, will be used in Tensor (not needed for variable)
+    # private, will be accessed in Tensor (not needed for Variable)
+    def _relu(self) -> "Variable":
         return relu(a=self)
 
-    def add_(self, other):
+    def add_(
+        self,
+        other: _data_dtype,
+        in_place: bool,
+    ):
+        """
+        In-place add operator.
+        WARNING: using `add_` will bump-version.
+
+        Args:
+            other (_data_dtype): operand
+        """
         self._check_inplace_ok()
         if isinstance(other, Variable):
             self._data += other._data
         else:
             self._data += other
         self._bump_version()
-        return self
 
     def mul_(self, other):
+        """
+        In-place multiply operator.
+        WARNING: using `mul_` will bump-version.
+
+        Args:
+            other (_data_dtype): operand
+        """
         self._check_inplace_ok()
         if isinstance(other, Variable):
             self._data *= other._data
         else:
             self._data *= other
         self._bump_version()
-        return self
 
     def zero_(self):
+        """
+        In-place zero operator, sets self.data to zeros.
+        WARNING: using `zero_` will bump-version.
+
+        Args:
+            other (_data_dtype): operand
+        """
         self._check_inplace_ok()
         self._data[...] = 0
         self._bump_version()
-        return self
 
 
 # Helpers for the tensor class (not accessed outside this file.)
@@ -400,10 +473,70 @@ def enforce_tensor(x) -> Variable:
     """
     if isinstance(x, Variable):
         return x
-    return Variable(np.array(x, dtype=float), requires_grad=False, is_leaf=True)
+    return Variable(
+        np.array(x, dtype=float),
+        requires_grad=False,
+        is_leaf=True
+    )
 
 
-def _wrap_forward(fn_cls: type, *parents, result_cls=None,  **kwargs) -> Variable:
+def _wrap_forward_new(
+    fn_cls: Type[Function],
+    *parents: Variable,
+    result_cls=None,
+    **kwargs
+) -> Variable:
+    # Fresh context for function
+    ctx = Context()
+    versions = [p._version for p in parents]
+    ctx.version_snapshot = tuple(versions)
+    fn = fn_cls(ctx)
+
+    # Compute function output
+    out_data = fn_cls.forward(*parents)
+
+    # Pick output class from parents (tensor has more importance)
+    if result_cls is None:
+        classes = {type(p) for p in parents}
+        if len(classes) == 1:
+            result_cls = classes.pop()
+        else:
+            tensor_presedence = (type(p) for p in parents
+                                 if p.__class__.__name__ == "Tesnsor")
+            result_cls = next(tensor_presedence, Variable)
+
+    # Create output as tensor
+    if result_cls.__name__ == "Tensor":
+        devices = [p.device for p in parents if hasattr(p, "device")]
+        device = devices[-1]  # ISSUE: device presedence needs to be provided
+        out = result_cls(
+                data=out_data,
+                requires_grad=any(p.requires_grad for p in parents),
+                grad_fn=None,  # Will be assigned after
+                is_leaf=False,
+                device=device,  # pyright: ignore
+            )
+    # Create output as Variable
+    else:
+        out = Variable(
+            data=out_data,
+            requires_grad=any(p.requires_grad for p in parents),
+            grad_fn=None,  # Will be assigned after
+            is_leaf=False,
+        )
+
+    # Binding a grad_fn
+    out.grad_fn = fn
+
+    return out
+
+
+def _wrap_forward(
+    fn_cls: type,
+    *parents: Variable,
+    result_cls=None,
+    **kwargs
+) -> Variable:
     ctx = Context()
     parents_data = [parent._data for parent in parents]
 
@@ -444,7 +577,7 @@ def _wrap_forward(fn_cls: type, *parents, result_cls=None,  **kwargs) -> Variabl
     fn = fn_cls()
     fn._ctx = ctx
     fn._parents = parents
-    ctx._version_snapshot = tuple(p._version for p in parents)
+    ctx.version_snapshot = tuple(p._version for p in parents)
     out.grad_fn = fn
 
     return out
@@ -456,19 +589,19 @@ def add(a, b):
     return _wrap_forward(Add, a, b)
 
 
-def sub(a,b):
+def sub(a, b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Sub, a, b)
 
 
-def mul(a,b):
+def mul(a, b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Mul, a, b)
 
 
-def div(a,b):
+def div(a, b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(Div, a, b)
@@ -479,13 +612,17 @@ def neg(a):
     return _wrap_forward(Neg, a)
 
 
-def matmul(a,b):
+def matmul(a, b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
     return _wrap_forward(MatMul, a, b)
 
 
-def tensor_sum(a, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False):
+def tensor_sum(
+    a,
+    dim: Optional[Union[int, tuple]] = None,
+    keepdims: bool = False
+):
     a = enforce_tensor(a)
     return _wrap_forward(VariableSum, a, dim=dim, keepdims=keepdims)
 
@@ -523,3 +660,10 @@ def exp(a):
 def log(a):
     a = enforce_tensor(a)
     return _wrap_forward(Log, a)
+
+
+if __name__ == "__main__":
+    a = Variable(30, requires_grad=True)
+    b = Variable(2, requires_grad=True)
+    c = a * b
+    c.backward()

@@ -3,9 +3,11 @@ from typing import Optional, Union
 
 from puretorch import Tensor
 
+
 def _as_cls_const(x: np.ndarray, like: Tensor) -> Tensor:
     """Create a constant (no-grad) tensor of the same class as `like`."""
     return type(like)(x, requires_grad=False, is_leaf=True)
+
 
 def _broadcast_class_weight(weight: Optional[Tensor], logits: Tensor) -> Optional[Tensor]:
     """
