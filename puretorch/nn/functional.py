@@ -9,14 +9,17 @@ from typing import (
 from puretorch import Tensor
 from .utils import _as_cls_const, _broadcast_class_weight
 
+
 # activations
 def relu(x: Tensor) -> Tensor:
     return x.relu()
+
 
 def tanh(x: Tensor) -> Tensor:
     pos = x.exp()
     neg = x.__neg__().exp()
     return (pos - neg) / (pos + neg)
+
 
 def softmax(logits: Tensor, dim: int = -1) -> Tensor:
     # Numerically stable softmax: subtract per-row max

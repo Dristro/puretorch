@@ -68,5 +68,7 @@ class Tensor(Variable):
             separator=', ',
             prefix=' ' * 7
         )
-        statement = f"tensor({formatted_data}, requires_grad={self.requires_grad})" if self.requires_grad else f"tensor({formatted_data})"
+        statement = f"tensor({formatted_data},"\
+                    f"requires_grad={self.requires_grad})"\
+                    if self.requires_grad else f"tensor({formatted_data})"
         return statement

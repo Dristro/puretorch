@@ -1,19 +1,22 @@
 from typing import TYPE_CHECKING
+
+from numpy.random import normal
 if TYPE_CHECKING:
     from variable import Variable
 
 import numpy as np
-from typing import Union, Tuple
+from typing import Union, Tuple, Optional
 
 from .context import Context
 from .function import Function
 
 
 class Add(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+        self.ctx.save_for_backward(a, b)
         return a.data + b.data
 
     def backward(self, grad_output: np.ndarray):
@@ -21,10 +24,11 @@ class Add(Function):
 
 
 class Sub(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+        self.ctx.save_for_backward(a, b)
         return a.data - b.data
 
     def backward(self, grad_output: np.ndarray):
@@ -32,8 +36,8 @@ class Sub(Function):
 
 
 class Mul(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
         self.ctx.save_for_backward(a, b)
@@ -45,8 +49,8 @@ class Mul(Function):
 
 
 class Div(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
         self.ctx.save_for_backward(a, b)
@@ -60,10 +64,11 @@ class Div(Function):
 
 
 class Neg(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable") -> np.ndarray:
+        self.ctx.save_for_backward(a)
         return -a.data
 
     def backward(self, grad_output: np.ndarray):
@@ -71,8 +76,8 @@ class Neg(Function):
 
 
 class MatMul(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
         self.ctx.save_for_backward(a, b)
@@ -86,11 +91,11 @@ class MatMul(Function):
 
 
 class Transpose(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable") -> np.ndarray:
-        self.ctx.save_for_backward(a.shape)
+        self.ctx.save_for_backward(a)
         return a.data.T
 
     def backward(self, grad_output: np.ndarray):
@@ -98,35 +103,36 @@ class Transpose(Function):
 
 
 class Reshape(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", shape: Tuple[int, ...]):
-        self.ctx.save_for_backward(a.shape)
+        self.ctx.save_for_backward(a)
         return a.data.reshape(shape)
 
     def backward(self, grad_output: np.ndarray):
-        (orig_shape,) = self.ctx.saved_data
+        orig_shape, = self.ctx.saved_data
+        orig_shape = orig_shape.shape
         return grad_output.reshape(orig_shape)
 
 
 class ReLU(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable") -> np.ndarray:
         self.ctx.save_for_backward(a)
         return np.maximum(a.data, 0)
 
     def backward(self, grad_output: np.ndarray):
-        (a,) = self.ctx.saved_data
+        a, = self.ctx.saved_data
         grad = grad_output * (a.data > 0).astype(float)
         return grad
 
 
 class Pow(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", exponent: Union[int, float]):
         assert isinstance(exponent, (int, float)), f"Exponent must be int or float, got: {exponent}"
@@ -139,10 +145,15 @@ class Pow(Function):
 
 
 class VariableSum(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
-    def forward(self, a: "Variable", dim=None, keepdims=False):
+    def forward(
+        self,
+        a: "Variable",
+        dim: Optional[Union[Tuple[int], int]] = None,
+        keepdims: bool = False,
+    ):
         """
         Args:
             a: "Variable"
@@ -150,23 +161,20 @@ class VariableSum(Function):
             keepdims: if True, result shape matches 'a' in rank (PyTorch-style)
         """
         # Normalize dim to a sorted tuple of positive axes or None
-        if dim is None:
-            norm_dim = None
-        else:
-            if isinstance(dim, int):
-                dim = (dim,)
-            nd = a.data.ndim
-            norm_dim = tuple(sorted(d if d >= 0 else d + nd for d in dim))
-        self.ctx.save_for_backward(a.shape, norm_dim, keepdims)
-        return np.sum(a.data, axis=norm_dim, keepdims=keepdims)
+        if isinstance(dim, int):
+            dim = (dim,)
+        self.ctx.save_for_backward(a, dim, keepdims)
+        return np.sum(a.data, axis=dim, keepdims=keepdims)
 
     def backward(self, grad_output: np.ndarray):
-        shape, dim, keepdims = self.ctx.saved_data
+        item, dim, keepdims = self.ctx.saved_data
+        shape = item.shape
+        grad = np.ones(shape, dtype=grad_output.dtype)
 
         # Sum over all elements
         if dim is None:
             # grad_output shape is () if keepdims=False, or shape of ones if keepdims=True
-            return np.ones(shape, dtype=grad_output.dtype) * grad_output
+            return grad * grad_output
 
         # We reduced some axes. If keepdims=False, reinsert singleton dims at reduced positions
         if not keepdims:
@@ -176,12 +184,12 @@ class VariableSum(Function):
             # now broadcastable to 'shape'
             grad_output = grad_output.reshape(shp)
 
-        return np.ones(shape, dtype=grad_output.dtype) * grad_output
+        return grad * grad_output
 
 
 class Mean(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable", dim=None, keepdims=False):
         if dim is None:
@@ -195,11 +203,12 @@ class Mean(Function):
             denom = 1
             for d in norm_dim:
                 denom *= a.shape[d]
-        self.ctx.save_for_backward(a.shape, norm_dim, keepdims, denom)
+        self.ctx.save_for_backward(a, norm_dim, keepdims, denom)
         return np.mean(a.data, axis=norm_dim, keepdims=keepdims)
 
     def backward(self, grad_output: np.ndarray):
-        shape, dim, keepdims, denom = self.ctx.saved_data
+        item, dim, keepdims, denom = self.ctx.saved_data
+        shape = item.shape
 
         if dim is None:
             # grad_output is scalar if keepdims=False
@@ -217,27 +226,27 @@ class Mean(Function):
 
 
 class Exp(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable") -> np.ndarray:
         out = np.exp(a.data)
-        self.ctx.save_for_backward(out)
+        self.ctx.save_for_backward(a, out)
         return out
 
     def backward(self, grad_output: np.ndarray):
-        out = self.ctx.saved_data
+        _, out = self.ctx.saved_data
         return grad_output * out
 
 
 class Log(Function):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def forward(self, a: "Variable") -> np.ndarray:
         self.ctx.save_for_backward(a)
         return np.log(a.data)
 
     def backward(self, grad_output: np.ndarray):
-        a = self.ctx.saved_data
+        a, = self.ctx.saved_data
         return grad_output / a.data

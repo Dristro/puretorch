@@ -225,7 +225,7 @@ def test_grad_non_leaf_tensor():
     c = b * 3
     out = c.sum()
     out.backward()
-    
+
     # b is not a leaf, so the gradient is never 'stored'
     assert np.allclose(a.grad, np.ones_like(a.data) * 6)
     assert b.grad is None
@@ -458,8 +458,6 @@ def test_tanh_range():
     x = puretorch.linspace(-100, 100, num=50)
     y = F.tanh(x)
     # all outputs must be strictly between -1 and 1
-    #print(f"[DEBUG @ tests/tensor_tests.py] y: {y}")  # passed, remove in next commit
-    #print(f"[DEBUG @ tests/tensor_tests.py] y.shape: {y.shape}")
     assert np.all(y >= -1.0)
     assert np.all(y <= 1.0)
 
@@ -495,6 +493,7 @@ def my_func():
     print(f"[FUN @ tests/tensor_tests.py] tgt.shape: {tgt.shape}")
     print(f"[FUN @ tests/tensor_tests.py] tgt:\n{tgt}")
     print("---"*5)
+
 
 if __name__ == "__main__":
     my_func()

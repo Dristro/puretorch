@@ -2,6 +2,7 @@ from unittest import result
 import weakref
 import numpy as np
 from typing import (
+    Any,
     Type,
     List,
     Union,
@@ -138,7 +139,7 @@ class Variable:
         return self._dtype
 
     def numpy(self) -> np.ndarray:
-        """Convert into numpy.ndarray"""
+        """Return as numpy.ndarray"""
         return self._data
 
     def tolist(self) -> List:
@@ -166,22 +167,26 @@ class Variable:
         topo = []
         visited = set()
 
-        def build(_tensor: 'Variable'):
+        def build(_tensor: "Variable"):
             if id(_tensor) in visited:
                 return
             visited.add(id(_tensor))
-            if _tensor.grad_fn is not None:
-                logger(dir(_tensor.grad_fn), type_ = "DEBUG@168")  # DEBUG7
-                for child in _tensor.grad_fn.ctx.saved_data:#_parents:
-                    build(child)
+
+            grad_fn = _tensor.grad_fn
+            if grad_fn is not None:
+                for child in grad_fn.ctx.saved_data:  # parents
+                    if _isinstance(child, "Variable", "Tensor"):
+                        build(child)
+
             topo.append(_tensor)
+
         build(self)
 
         # init the grads
         grads = {id(self): gradient.copy()}
 
         # use topo to propagate
-        gen = (_t for _t in reversed(topo) if _t.requires_grad)  # reduce number of indent-blocks
+        gen = (_t for _t in reversed(topo) if _t.requires_grad)
         for _tensor in gen:
             grad = grads.get(id(_tensor))
             if grad is None:
@@ -190,43 +195,46 @@ class Variable:
             # processing a leaf
             if _tensor.is_leaf:
                 if _tensor.grad is None:
-                    _tensor._grad = grad   # init grad
+                    _tensor._grad = grad  # init grad
                 else:                     # (or)
-                    _tensor.grad += grad  # accumilate grad
+                    _tensor._grad += grad  # accumilate grad
                 for hook in _tensor._backward_hooks:
                     hook(_tensor)  # call all hooks (if given)
 
             # processing intermediate tensors
             else:
                 # version safety check (detects illegal in-place between forward and backward)
-                ctx = _tensor.grad_fn._ctx
-                snap = getattr(ctx, "_version_snapshot", None)
+                ctx = _tensor.grad_fn.ctx
+                snap = ctx.version_snapshot
                 if snap is not None:
-                    for parent, seen in zip(_tensor.grad_fn._parents, snap):
+                    for parent, seen in zip(ctx.saved_data, snap):
                         if parent._version != seen:
                             raise RuntimeError(
                                 f"One of the Variables needed for backward was modified in-place: "\
                                 f"saved version {seen}, current version {parent._version} for: {repr(parent)}"
                             )
 
-                grad_out = _tensor.grad_fn.backward(_tensor.grad_fn._ctx, grad)  # op-wise backward
+                grad_out = _tensor.grad_fn.backward(grad)  # op-wise backward
 
                 # logic for any function (even custom ones, defined by user)
                 if not isinstance(grad_out, tuple):
                     grad_out = (grad_out,)
 
-                for parent, g_out in zip(_tensor.grad_fn._parents, grad_out):  # number of params need-not be 2, thus loop
+                for parent, g_out in zip(ctx.saved_data, grad_out):
                     if g_out is None:
                         continue
 
                     # inverse-brodcasing, reduce gradient to parent shape (if needed)
-                    g_out = _unbroadcast(g_out, parent.shape)
+                    shape = parent  # assumes parent is Tuple
+                    if _isinstance(parent, "Variable", "Tensor") or isinstance(parent, np.ndarray):
+                        shape = parent.shape
+                    g_out = _unbroadcast(g_out, shape)
 
                     if id(parent) not in grads:
-                        grads[id(parent)] = g_out  # put new tensor with grad in dict
+                        grads[id(parent)] = g_out  # put new tensor+grad in grads
 
                     else:
-                        grads[id(parent)] += g_out  # accumulate grad, if tensor alr in dict
+                        grads[id(parent)] += g_out  # accumulate grad
 
     def _bump_version(self):
         self._version += 1
@@ -406,11 +414,11 @@ class Variable:
     def add_(
         self,
         other: _data_dtype,
-        in_place: bool,
     ):
         """
         In-place add operator.
-        WARNING: using `add_` will bump-version.
+        WARNING: using `add_` will bump-version,
+        will break backward-graph.
 
         Args:
             other (_data_dtype): operand
@@ -452,6 +460,10 @@ class Variable:
 
 # Helpers for the tensor class (not accessed outside this file.)
 
+def _isinstance(x: Any, *class_name: str):
+    return x.__class__.__name__ in class_name
+
+
 def _unbroadcast(grad: np.ndarray, shape: Tuple[int, ...]) -> np.ndarray:
     """Reduce grad to the target shape (inverse of broadcasting)."""
     if grad.shape == shape:
@@ -480,7 +492,7 @@ def enforce_tensor(x) -> Variable:
     )
 
 
-def _wrap_forward_new(
+def _wrap_forward(
     fn_cls: Type[Function],
     *parents: Variable,
     result_cls=None,
@@ -493,7 +505,7 @@ def _wrap_forward_new(
     fn = fn_cls(ctx)
 
     # Compute function output
-    out_data = fn_cls.forward(*parents)
+    out_data = fn.forward(*parents, **kwargs)
 
     # Pick output class from parents (tensor has more importance)
     if result_cls is None:
@@ -531,7 +543,7 @@ def _wrap_forward_new(
     return out
 
 
-def _wrap_forward(
+def _wrap_forward_old(
     fn_cls: type,
     *parents: Variable,
     result_cls=None,

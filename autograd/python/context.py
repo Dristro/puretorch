@@ -2,7 +2,11 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from variable import Variable
 
-from typing import Tuple
+from typing import Tuple, Any
+
+
+def _isinstance(x: Any, class_name: str):
+    return x.__class__.__name__ == class_name
 
 
 class Context:
@@ -42,11 +46,15 @@ class Context:
         """
         self._version_snapshot = value
 
-    def save_for_backward(self, *tensors: "Variable"):
+    def save_for_backward(self, *data: Any):
+        """
+        Save data/information relevant for backward.
+        Args:
+            *data (Any): data to store for backward
+        """
         """Save data for backward."""
-        self._saved_tensors = tuple(tensors)
-        versions = [t._version for t in tensors]
-        print(versions)
+        self._saved_tensors = tuple(data)
+        versions = [d._version for d in data if _isinstance(d, "Variable")]
         self.version_snapshot_(tuple(versions))
 
     @property
@@ -66,3 +74,8 @@ class Context:
         ```
         """
         return self._saved_tensors
+
+    def __repr__(self) -> str:
+        return f"Context(saved_data={self.saved_data},\n"\
+               f"\tversion_snapshot={self.version_snapshot}\n"\
+               "\t)"

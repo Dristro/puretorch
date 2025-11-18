@@ -8,7 +8,6 @@ from autograd import Variable
 
 
 def test_add():
-
     t1 = Variable(np.random.randn(3, 4), requires_grad=True, is_leaf=True)
     t2 = Variable(np.random.randn(3, 4), requires_grad=True, is_leaf=True)
 
@@ -218,7 +217,7 @@ def test_grad_non_leaf_tensor():
     c = b * 3
     out = c.sum()
     out.backward()
-    
+
     # b is not a leaf, so the gradient is never 'stored'
     assert np.allclose(a.grad, np.ones_like(a.data) * 6)
     assert b.grad is None
@@ -245,7 +244,6 @@ def test_exp_log():
     y = x.exp() + x.log()
     out = y.sum()
     out.backward()
-    
     expected_grad = np.exp(x_data) + 1.0 / x_data
     assert np.allclose(x.grad, expected_grad, rtol=1e-6, atol=1e-6)
 
@@ -253,8 +251,10 @@ def test_exp_log():
     num_grad = np.zeros_like(x_data)
     for k in range(x_data.size):
         idx = np.unravel_index(k, x_data.shape)
-        x_pos = x_data.copy(); x_pos[idx] += eps
-        x_neg = x_data.copy(); x_neg[idx] -= eps
+        x_pos = x_data.copy()
+        x_pos[idx] += eps
+        x_neg = x_data.copy()
+        x_neg[idx] -= eps
         f_pos = np.sum(np.exp(x_pos) + np.log(x_pos))
         f_neg = np.sum(np.exp(x_neg) + np.log(x_neg))
         num_grad[idx] = (f_pos - f_neg) / (2 * eps)
