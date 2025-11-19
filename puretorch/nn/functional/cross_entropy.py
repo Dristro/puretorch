@@ -8,33 +8,9 @@ from typing import (
 
 from puretorch import Tensor
 from .utils import _as_cls_const, _broadcast_class_weight
+from .log_softmax import log_softmax
 
 
-# activations
-def relu(x: Tensor) -> Tensor:
-    return x.relu()
-
-
-def tanh(x: Tensor) -> Tensor:
-    pos = x.exp()
-    neg = x.__neg__().exp()
-    return (pos - neg) / (pos + neg)
-
-
-def softmax(logits: Tensor, dim: int = -1) -> Tensor:
-    # Numerically stable softmax: subtract per-row max
-    shift_np = logits.data.max(axis=dim, keepdims=True)
-    shift = _as_cls_const(shift_np, logits)
-    exps = (logits - shift).exp()
-    denom = exps.sum(dim=dim, keepdims=True)
-    return exps / denom
-
-
-def log_softmax(logits: Tensor, dim: int = -1) -> Tensor:
-    return softmax(logits, dim=dim).log()
-
-
-# losses
 def cross_entropy(
     logits: Tensor,
     targets: Union[np.ndarray, Tensor],
@@ -51,7 +27,9 @@ def cross_entropy(
         logits (Tensor): tensor of size [B,C]
         targets (Tensor): tensor of size [B,]
         ignore_idx (int): target value that is ignored during loss calculation
-        weight (Tensor, optional): a manual rescaling weight given to each class. If given, it has to be a Tensor of size C. Otherwise, it is treated as if having all ones.
+        weight (Tensor, optional): a manual rescaling weight given to each
+            class. If given, it has to be a Tensor of size C. Otherwise, it is
+            treated as if having all ones.
         reduction (str, optional): reduction applied to output
     Returns:
         Tensor with loss as float
@@ -75,7 +53,7 @@ def cross_entropy(
         else:
             per_class_term = t_const * ls
         loss_map = -per_class_term.sum(dim=-1)
-        
+
         count_np = np.prod(loss_map.data.shape, dtype=np.int64)
         count = _as_cls_const(np.array(count_np, dtype=ls.data.dtype), ls)
 
@@ -115,9 +93,10 @@ def cross_entropy(
     num = loss_map.sum()
     if reduction is None or reduction == "mean":
         if count.data == 0:
-            return num * _as_cls_const(np.array(0.0, dtype=ls.data.dtype), ls)
-        return num / count
+            return num * _as_cls_const(np.array(0.0, dtype=ls.data.dtype), ls)  # pyright: ignore
+        return num / count  # pyright: ignore
     elif reduction == "sum":
-        return num
+        return num  # pyright: ignore
     else:
-        raise ValueError(f"Got unexpected reduction: {reduction}. Use 'mean', 'sum', or None.")  # better error msg...
+        raise ValueError(f"Got unexpected reduction: {reduction}. Use 'mean',"
+                         f" 'sum', or None.")

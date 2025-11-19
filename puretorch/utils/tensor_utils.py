@@ -40,10 +40,6 @@ def equal(a: Tensor, b: Tensor) -> bool:
     Return True if two tensors have the same shape and elements.
     Equivalent to np.array_equal(a, b).
     """
-    print(a)
-    print(b)
-    print(a.numpy())
-    print(b.numpy())
     a: np.ndarray = a.numpy()
     b: np.ndarray = b.numpy()
     return np.array_equal(a, b)

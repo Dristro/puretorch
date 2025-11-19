@@ -1,6 +1,8 @@
 import numpy as np
 from typing import Union, Optional
-from autograd import Variable, Function
+
+from autograd import Variable
+from autograd.python.ops import Function
 
 
 class Tensor(Variable):
@@ -40,22 +42,6 @@ class Tensor(Variable):
         Same as accessing `.data`.
         """
         return self.data
-
-    def relu(self) -> "Tensor":
-        """
-        **Deprication warning**:
-        This function will be removed in the next release.
-        Please use `nn.functional.relu()`.
-
-        Computes relu and returns new instance.
-        Returns:
-            Tensor
-        """
-        return Tensor(
-            data=self._relu(),
-            requires_grad=self.requires_grad,
-            is_leaf=False,
-        )
 
     def __getitem__(self, idx: int):
         return self._data[idx]

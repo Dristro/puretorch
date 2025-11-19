@@ -1,4 +1,6 @@
-from unittest import result
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from puretorch import Tensor
 import weakref
 import numpy as np
 from typing import (
@@ -89,7 +91,7 @@ class Variable:
         else:
             self._grad = np.zeros_like(self.data)
 
-    def detach(self) -> "Variable":
+    def detach(self) -> Union["Variable", "Tensor"]:
         """Returns new instance of Variable, not part of graph."""
         return type(self)(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
         # return Variable(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
@@ -247,37 +249,37 @@ class Variable:
         self._backward_hooks.append(fn)
 
     # math operators
-    def __add__(self, other) -> "Variable":
+    def __add__(self, other) -> Union["Variable", "Tensor"]:
         return add(self, other)
 
-    def __radd__(self, other) -> "Variable":
+    def __radd__(self, other) -> Union["Variable", "Tensor"]:
         return add(other, self)
 
-    def __mul__(self, other) -> "Variable":
+    def __mul__(self, other) -> Union["Variable", "Tensor"]:
         return mul(self, other)
 
-    def __rmul__(self, other) -> "Variable":
+    def __rmul__(self, other) -> Union["Variable", "Tensor"]:
         return mul(other, self)
 
-    def __sub__(self, other) -> "Variable":
+    def __sub__(self, other) -> Union["Variable", "Tensor"]:
         return sub(self, other)
 
-    def __rsub__(self, other) -> "Variable":
+    def __rsub__(self, other) -> Union["Variable", "Tensor"]:
         return sub(other, self)
 
-    def __truediv__(self, other) -> "Variable":
+    def __truediv__(self, other) -> Union["Variable", "Tensor"]:
         return div(self, other)
 
-    def __rtruediv__(self, other) -> "Variable":
+    def __rtruediv__(self, other) -> Union["Variable", "Tensor"]:
         return div(other, self)
 
-    def __neg__(self) -> "Variable":
+    def __neg__(self) -> Union["Variable", "Tensor"]:
         return neg(self)
 
-    def __matmul__(self, other) -> "Variable":
+    def __matmul__(self, other) -> Union["Variable", "Tensor"]:
         return matmul(self, other)
 
-    def __pow__(self, exp: Union[int, float]) -> "Variable":
+    def __pow__(self, exp: Union[int, float]) -> Union["Variable", "Tensor"]:
         return pow(self, exp)
 
     # variable comparisons
@@ -312,51 +314,74 @@ class Variable:
 
     # inplace operators
 
-    def __iadd__(self, other) -> "Variable":
+    def __iadd__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.add(self._data, other._data, out=self._data, casting="unsafe")
+            np.add(
+                self._data, other._data,
+                out=self._data, casting="unsafe")
         else:
-            np.add(self._data, other, out=self._data, casting="unsafe")
+            np.add(
+                self._data, other,
+                out=self._data, casting="unsafe")
         self._bump_version()
-        return type(self)(self)
-        return self
 
-    def __isub__(self, other) -> "Variable":
-        self._check_inplace_ok()
-        if isinstance(other, Variable):
-            np.subtract(self._data, other._data, out=self._data, casting="unsafe")
-        else:
-            np.subtract(self._data, other, out=self._data, casting="unsafe")
-        self._bump_version()
-        return type(self)(self)
-        return self
-
-    def __imul__(self, other) -> "Variable":
-        self._check_inplace_ok()
-        if isinstance(other, Variable):
-            np.multiply(self._data, other._data, out=self._data, casting="unsafe")
-        else:
-            np.multiply(self._data, other, out=self._data, casting="unsafe")
-        self._bump_version()
         return type(self)(self)
 
-    def __itruediv__(self, other) -> "Variable":
+    def __isub__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.true_divide(self._data, other._data, out=self._data, casting="unsafe")
+            np.subtract(
+                self._data, other._data,
+                out=self._data, casting="unsafe")
         else:
-            np.true_divide(self._data, other, out=self._data, casting="unsafe")
+            np.subtract(
+                self._data, other,
+                out=self._data, casting="unsafe")
         self._bump_version()
+
         return type(self)(self)
 
-    def __ipow__(self, other) -> "Variable":
+    def __imul__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.power(self._data, other._data, out=self._data, casting="unsafe")
+            np.multiply(
+                self._data, other._data,
+                out=self._data, casting="unsafe")
         else:
-            np.power(self._data, other, out=self._data, casting="unsafe")
+            np.multiply(
+                self._data, other,
+                out=self._data, casting="unsafe")
         self._bump_version()
+
+        return type(self)(self)
+
+    def __itruediv__(self, other) -> Union["Variable", "Tensor"]:
+        self._check_inplace_ok()
+        if isinstance(other, Variable):
+            np.true_divide(
+                self._data, other._data,
+                out=self._data, casting="unsafe")
+        else:
+            np.true_divide(
+                self._data, other,
+                out=self._data, casting="unsafe")
+        self._bump_version()
+
+        return type(self)(self)
+
+    def __ipow__(self, other) -> Union["Variable", "Tensor"]:
+        self._check_inplace_ok()
+        if isinstance(other, Variable):
+            np.power(
+                self._data, other._data,
+                out=self._data, casting="unsafe")
+        else:
+            np.power(
+                self._data, other,
+                out=self._data, casting="unsafe")
+        self._bump_version()
+
         return type(self)(self)
 
     # data logic
@@ -387,28 +412,32 @@ class Variable:
 
     # ====== Tensor functions ====== #
 
-    def reshape(self, shape: tuple) -> "Variable":
+    def reshape(self, shape: tuple) -> Union["Variable", "Tensor"]:
         return reshape(self, shape=shape)
 
     @property
-    def T(self) -> "Variable":
+    def T(self) -> Union["Variable", "Tensor"]:
         return transpose(self)
 
-    def sum(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> "Variable":
+    def sum(
+        self,
+        dim: Optional[Union[int, tuple]] = None,
+        keepdims: bool = False
+    ) -> Union["Variable", "Tensor"]:
         return tensor_sum(a=self, dim=dim, keepdims=keepdims)
 
-    def mean(self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False) -> "Variable":
+    def mean(
+        self,
+        dim: Optional[Union[int, tuple]] = None,
+        keepdims: bool = False
+    ) -> Union["Variable", "Tensor"]:
         return mean(a=self, dim=dim, keepdims=keepdims)
 
-    def exp(self) -> "Variable":
+    def exp(self) -> Union["Variable", "Tensor"]:
         return exp(a=self)
 
-    def log(self) -> "Variable":
+    def log(self) -> Union["Variable", "Tensor"]:
         return log(a=self)
-
-    # private, will be accessed in Tensor (not needed for Variable)
-    def _relu(self) -> "Variable":
-        return relu(a=self)
 
     def add_(
         self,
@@ -460,6 +489,7 @@ class Variable:
 # Helpers for the tensor class (not accessed outside this file.)
 
 def _isinstance(x: Any, *class_name: str):
+    """Check if x is instance of any clas_name"""
     return x.__class__.__name__ in class_name
 
 
@@ -477,10 +507,14 @@ def _unbroadcast(grad: np.ndarray, shape: Tuple[int, ...]) -> np.ndarray:
     return grad.reshape(shape)
 
 
-def enforce_tensor(x) -> Variable:
+def enforce_tensor(x: Any) -> Variable:
     """
     Converts 'x' into a Tensor instance if not already.
     Used for tensor-ops.
+    Output variable properties:
+        requires_grad = False
+        is_leaf = True
+        dtype: float
     """
     if isinstance(x, Variable):
         return x
@@ -493,10 +527,27 @@ def enforce_tensor(x) -> Variable:
 
 def _wrap_forward(
     fn_cls: Type[Function],
-    *parents: Variable,
+    *parents: Union[Variable, "Tensor"],
     result_cls=None,
     **kwargs
-) -> Variable:
+) -> Union[Variable, "Tensor"]:
+    """
+    autograd safe tensor/variable operations. This function is used to
+    manually bind and manage context for a given numerical function
+    defined for tensors/variables. Handles either Variable or Tensor
+    as arguments for output's parents.
+    **NOTE**: to keep things consistent, ensure that all parents are
+    of same type, since Tensor has higher presedence.
+
+    Args:
+        fn_cls (Function): class of the function called
+        parents (Variable or Tensor): ts/vs participating in function
+        result_cls (class): class of output (handle t/v casting)
+        **kwargs: all the kwargs for function forward call
+    Returns:
+        Variable or Tensor: output tensor with data.
+    """
+
     # Fresh context for function
     ctx = Context()
     versions = [p._version for p in parents]
@@ -513,7 +564,7 @@ def _wrap_forward(
             result_cls = classes.pop()
         else:
             tensor_presedence = (type(p) for p in parents
-                                 if p.__class__.__name__ == "Tesnsor")
+                                 if p.__class__.__name__ == "Tensor")
             result_cls = next(tensor_presedence, Variable)
 
     # Create output as tensor
@@ -599,11 +650,6 @@ def transpose(a):
 def reshape(a, shape: tuple):
     a = enforce_tensor(a)
     return _wrap_forward(Reshape, a, shape=shape)
-
-
-def relu(a):
-    a = enforce_tensor(a)
-    return _wrap_forward(ReLU, a)
 
 
 def pow(a, exponent):

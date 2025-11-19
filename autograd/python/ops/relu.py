@@ -1,11 +1,16 @@
-from typing import TYPE_CHECKING
+"""
+This function is not exposed in Variable.
+Its sole purpose is to be used for Tensor.
+I dont want to 'mix' autograd and puretorch's
+functionality, so puretorch.nn.functional.relu
+will call this implementation of ReLU.
+"""
 
-from numpy.random import normal
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from variable import Variable
 
 import numpy as np
-from typing import Union, Tuple, Optional
 
 from .context import Context
 from .function import Function
@@ -21,5 +26,4 @@ class ReLU(Function):
 
     def backward(self, grad_output: np.ndarray):
         a, = self.ctx.saved_data
-        grad = grad_output * (a.data > 0).astype(float)
-        return grad
+        return grad_output * (a > 0).astype(float)
