@@ -543,58 +543,6 @@ def _wrap_forward(
     return out
 
 
-def _wrap_forward_old(
-    fn_cls: type,
-    *parents: Variable,
-    result_cls=None,
-    **kwargs
-) -> Variable:
-    ctx = Context()
-    parents_data = [parent._data for parent in parents]
-
-    # forward
-    out_data = fn_cls.forward(ctx, *parents_data, **kwargs)
-
-    # pick output class
-    if result_cls is None:
-        classes = {type(p) for p in parents}
-        if len(classes) == 1:
-            result_cls = classes.pop()
-        else:
-            # pick 'tensor' if any parent is tensor (higher priority to tensor-instances)
-            result_cls = next((type(p) for p in parents if p.__class__.__name__ == "Tensor"), Variable)
-
-    # Create output as tensor
-    if result_cls.__name__ == "Tensor":
-        devices = [p.device for p in parents if hasattr(p, "device")]  # FIXED: device issue if parent is mixed (variable/tensor)
-        out = result_cls(
-            data=out_data,
-            requires_grad=any(p.requires_grad for p in parents),
-            grad_fn=None,
-            is_leaf=False,
-            device=devices[-1],  # get last device from parents
-                                 # FIX-NEEDED: give priority to a device (or) check if all parents are on same device
-        )
-
-    # Create output as variable
-    else:
-        out = Variable(
-            data=out_data,
-            requires_grad=any(p.requires_grad for p in parents),
-            grad_fn=None,
-            is_leaf=False,
-        )
-
-    # Bind grad_fn instance, parents, and ctx
-    fn = fn_cls()
-    fn._ctx = ctx
-    fn._parents = parents
-    ctx.version_snapshot = tuple(p._version for p in parents)
-    out.grad_fn = fn
-
-    return out
-
-
 def add(a, b):
     a = enforce_tensor(a)
     b = enforce_tensor(b)
