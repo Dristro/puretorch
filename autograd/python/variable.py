@@ -11,9 +11,9 @@ from typing import (
     Optional,
 )
 
-from .context import Context
-from .function import Function
 from .grad_mode import is_grad_enabled
+from .ops.context import Context
+from .ops.function import Function
 from .ops import (
     Add,
     Mul,
@@ -23,7 +23,6 @@ from .ops import (
     Pow,
     Exp,
     Log,
-    ReLU,
     Mean,
     MatMul,
     Reshape,
