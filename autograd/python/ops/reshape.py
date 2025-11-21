@@ -5,7 +5,6 @@ if TYPE_CHECKING:
 import numpy as np
 from typing import Tuple
 
-from .context import Context
 from .function import Function
 
 

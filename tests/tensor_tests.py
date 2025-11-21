@@ -10,7 +10,6 @@ import numpy as np
 import puretorch
 
 from puretorch import Tensor
-from puretorch import make_dot
 from puretorch.nn import functional as F
 
 
@@ -260,8 +259,10 @@ def test_exp_log():
     num_grad = np.zeros_like(x_data)
     for k in range(x_data.size):
         idx = np.unravel_index(k, x_data.shape)
-        x_pos = x_data.copy(); x_pos[idx] += eps
-        x_neg = x_data.copy(); x_neg[idx] -= eps
+        x_pos = x_data.copy()
+        x_pos[idx] += eps
+        x_neg = x_data.copy()
+        x_neg[idx] -= eps
         f_pos = np.sum(np.exp(x_pos) + np.log(x_pos))
         f_neg = np.sum(np.exp(x_neg) + np.log(x_neg))
         num_grad[idx] = (f_pos - f_neg) / (2 * eps)
@@ -412,7 +413,8 @@ def test_cross_entropy_grad_matches_softmax_minus_onehot():
 
     # expected grad: (softmax - onehot)/B
     s = F.softmax(x).numpy()
-    oh = np.zeros((B, C)); oh[np.arange(B), tgt] = 1.0
+    oh = np.zeros((B, C))
+    oh[np.arange(B), tgt] = 1.0
     expected = (s - oh) / B
     assert np.allclose(x.grad, expected, rtol=1e-6, atol=1e-6)
 
@@ -490,6 +492,8 @@ def my_func():
     B, C = 5, 7
     x = Tensor(rng.standard_normal((B, C)), requires_grad=True, is_leaf=True)
     tgt = rng.integers(0, C, size=(B,))
+    print(f"[FUN @ tests/tensor_tests.py] x.shape: {x.shape}")
+    print(f"[FUN @ tests/tensor_tests.py] x:\n{x}")
     print(f"[FUN @ tests/tensor_tests.py] tgt.shape: {tgt.shape}")
     print(f"[FUN @ tests/tensor_tests.py] tgt:\n{tgt}")
     print("---"*5)

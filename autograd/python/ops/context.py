@@ -1,7 +1,3 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from variable import Variable
-
 from typing import Tuple, Any
 
 

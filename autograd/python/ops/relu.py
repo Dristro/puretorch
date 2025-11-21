@@ -12,7 +12,6 @@ if TYPE_CHECKING:
 
 import numpy as np
 
-from .context import Context
 from .function import Function
 
 

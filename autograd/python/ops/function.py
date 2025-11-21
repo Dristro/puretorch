@@ -1,6 +1,3 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from variable import Variable
 import numpy as np
 from .context import Context
 

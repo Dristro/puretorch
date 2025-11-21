@@ -1,31 +1,34 @@
-from typing import List, Iterator, Any
+from typing import Iterator, Dict, Any
 
 from puretorch import nn
+
 
 class Module:
     """
     Base module class.
     Handles module's train/eval modes only (as of now).
     """
+
     def __init__(self) -> None:
-        self._modules = {}
+        self._modules: Dict[str, "Module"] = {}
         self._parameters = {}
         self._training = True
 
-    def add_module(self, name: str, module: nn.Parameter):
+    def add_module(self, name: str, module: "Module"):
         self._modules[name] = module
 
     def register_param(self, name: str, param: nn.Parameter):
         self._parameters[name] = param
-    
+
     def children(self) -> Iterator["Module"]:
-        return self._modules.values()
-    
+        for m in self._modules.values():
+            yield m
+
     def parameters(self) -> Iterator[nn.Parameter]:
         # module's params
         for p in self._parameters.values():
             yield p
-        
+
         # child module(s) params
         # doing that recursively
         for m in self.children():
@@ -41,14 +44,40 @@ class Module:
     # modes
     def train(self, mode: bool = True):
         """
+        Sets Module to train mode.
+        Modules that differ in training and eval logic will be affected,
+        and this also sets module.parameter's requires_grad to mode.
+
+        NOTE: This function is similar to torch's implementation, however
+              parameter.requires_grad is also affected
+
         Current behavior: toggle requires_grad for all parameters (recursively)
         and set ._training flag. (You can later specialize for dropout/BN.)
+
+        Args:
+            mode (bool): mode to set training status to
         """
         self._training = mode
         for p in self.parameters():
             p.requires_grad = self._training
 
     def eval(self, mode: bool = True):
+        """
+        Sets Module to eval mode.
+        Modules that differ in training and eval logic will be affected,
+        and this also sets module.parameter's requires_grad to mode.
+
+        NOTE: This function is similar to torch's implementation, however
+              parameter.requires_grad is also affected
+
+        Current behavior: toggle requires_grad for all parameters (recursively)
+        and set ._training flag. (You can later specialize for dropout/BN.)
+
+        Internally, this function will set module's training to False.
+
+        Args:
+            mode (bool): mode to set training status to
+        """
         self.train(not mode)
 
     def __repr__(self) -> str:

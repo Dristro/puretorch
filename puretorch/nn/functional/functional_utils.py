@@ -9,10 +9,9 @@ This is an inefficient system, autograd will later be chenged to
 make this process smoother for tensors.
 """
 import numpy as np
-from typing import Callable, Union, Type, Any
+from typing import Type, Any
 
 from puretorch import Tensor
-from autograd import Variable
 from autograd.python.ops import Function, Context
 
 
