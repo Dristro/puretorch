@@ -47,7 +47,9 @@ def cross_entropy(
 
     # targets are distributions / one-hot [..., C]
     if t_data.ndim == ls.data.ndim and t_data.shape[-1] == C:
-        t_const = _as_cls_const(t_data.astype(ls.data.dtype, copy=False), ls)  # no-grad constant
+        t_const = _as_cls_const(
+            t_data.astype(ls.data.dtype, copy=False), ls
+        )  # no-grad constant
         if w is not None:
             per_class_term = t_const * ls * w
         else:
@@ -61,9 +63,17 @@ def cross_entropy(
     else:
         # build one-hot mask for selected classes, with ignore support
         if t_data.dtype.kind not in "iu":  # ints only
-            raise ValueError(f"Index targets must be integer-like, got dtype {t_data.dtype} and shape {t_data.shape}")
+            raise ValueError(
+                f"Index targets must be integer-like, got dtype {
+                    t_data.dtype
+                } and shape {t_data.shape}"
+            )
         if t_data.shape != ls.data.shape[:-1]:
-            raise ValueError(f"Index targets must have shape {ls.data.shape[:-1]}, got {t_data.shape}")
+            raise ValueError(
+                f"Index targets must have shape {ls.data.shape[:-1]}, got {
+                    t_data.shape
+                }"
+            )
 
         # mask of valid (non-ignored) positions [...]
         valid_mask_np = (t_data != ignore_idx).astype(ls.data.dtype, copy=False)
@@ -72,10 +82,12 @@ def cross_entropy(
         # one-hot [..., C] only for valid indices
         # build flattened one-hot
         flat_targets = t_data.reshape(-1)
-        flat_valid = (flat_targets != ignore_idx)
+        flat_valid = flat_targets != ignore_idx
         onehot_np = np.zeros((flat_targets.size, C), dtype=ls.data.dtype)
         if flat_valid.any():
-            onehot_np[np.arange(flat_targets.size)[flat_valid], flat_targets[flat_valid]] = 1.0
+            onehot_np[
+                np.arange(flat_targets.size)[flat_valid], flat_targets[flat_valid]
+            ] = 1.0
         onehot = _as_cls_const(onehot_np.reshape(*t_data.shape, C), ls)  # no-grad
 
         if w is not None:
@@ -93,10 +105,9 @@ def cross_entropy(
     num = loss_map.sum()
     if reduction is None or reduction == "mean":
         if count.data == 0:
-            return num * _as_cls_const(np.array(0.0, dtype=ls.data.dtype), ls)  # pyright: ignore
+            # pyright: ignore
+            return num * _as_cls_const(np.array(0.0, dtype=ls.data.dtype), ls)
         return num / count  # pyright: ignore
     elif reduction == "sum":
-        return num  # pyright: ignore
-    else:
-        raise ValueError(f"Got unexpected reduction: {reduction}. Use 'mean',"
-                         f" 'sum', or None.")
+        return num
+

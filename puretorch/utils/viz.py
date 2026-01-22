@@ -1,14 +1,17 @@
 # utility functions for graph-vizualizations using graphviz
 # used ChatGPT for this code...
 
+from ..tensor import Tensor
 from graphviz import Digraph
+from typing import Optional
 
 
-def _tensor_label(t):
+def _tensor_label(t: Tensor):
     req = "req_grad" if getattr(t, "requires_grad", False) else "no_grad"
-    shape = getattr(t, "shape", None)
+    shape = t.shape
     grad_shape = getattr(t, "grad", None)
-    grad_shape = grad_shape.shape if hasattr(grad_shape, "shape") else None
+    if grad_shape is not None:
+        grad_shape = grad_shape.shape
     return f"Tensor\nshape={tuple(shape)}, {req}, {grad_shape}"
 
 
@@ -22,9 +25,9 @@ def _fn_id(fn):
 
 def make_dot(
     output_tensor,
-    params: dict = None,
+    params: Optional[dict] = None,
     filename: str = "autograd_graph",
-    directory: str = None,
+    directory: Optional[str] = None,
     format: str = "png",
     graph_attr=None,
     node_attr=None,
@@ -97,3 +100,4 @@ def make_dot(
 
     g.render(filename=filename, cleanup=True)
     return g
+

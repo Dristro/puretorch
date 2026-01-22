@@ -1,0 +1,7 @@
+iniconfig==2.3.0
+numpy==2.3.5
+packaging==25.0
+pluggy==1.6.0
+Pygments==2.19.2
+pyrefly==0.44.1
+pytest==8.4.2

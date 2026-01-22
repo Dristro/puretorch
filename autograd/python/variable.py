@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from puretorch import Tensor
 import weakref
@@ -32,10 +33,10 @@ from .ops import (
     VariableSum,
 )
 
-_data_dtype = Union[int, float, list, tuple, np.ndarray, 'Variable']
+_data_dtype = Union[int, float, list, tuple, np.ndarray, "Variable"]
 
 
-def logger(message: str, type_: str = "INFO"):
+def _logger(message: str, type_: str = "INFO"):
     print(f"[{type_}]: {message}")
 
 
@@ -61,7 +62,9 @@ class Variable:
             None
         """
 
-        self._data: np.ndarray = data if isinstance(data, np.ndarray) else np.array(data)
+        self._data: np.ndarray = (
+            data if isinstance(data, np.ndarray) else np.array(data)
+        )
         self._grad: Optional[np.ndarray] = None
         self.grad_fn: Optional[Function] = grad_fn  # function producing self
         self.requires_grad = bool(requires_grad and is_grad_enabled())
@@ -75,8 +78,10 @@ class Variable:
         self._self_weakref = weakref.ref(self)  # saved_tensors avoid cycles
 
     def __repr__(self):
-        return f"Variable(shape={self.shape}, dtype={self._data.dtype}"\
-               f", requires_grad={self.requires_grad})"
+        return (
+            f"Variable(shape={self.shape}, dtype={self._data.dtype}"
+            f", requires_grad={self.requires_grad})"
+        )
 
     def zero_grad(
         self,
@@ -91,11 +96,24 @@ class Variable:
         else:
             self._grad = np.zeros_like(self.data)
 
-    def detach(self) -> Union["Variable", "Tensor"]:
-        """Returns new instance of Variable, not part of graph."""
-        return type(self)(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
-        # return Variable(self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True)
-        # FIX: remove in next version ^
+    def detach(self, *args, **kwargs) -> Union["Variable", "Tensor"]:
+        """
+        Returns new instance of Variable (or) tensor
+        independent of current graph.
+
+        Default properties of new instance:
+            requires_grad = False
+            grad_fn = None
+            is_leaf = True
+
+        NOTE: if args/kwargs given, default properties
+        are overwrriten
+        """
+        if not args or kwargs:
+            return type(self)(
+                self._data.copy(), requires_grad=False, grad_fn=None, is_leaf=True
+            )
+        return type(self)(self._data, *args, **kwargs)
 
     def requires_grad_(self, val=True) -> None:
         """In-place requires-grad change"""
@@ -114,6 +132,8 @@ class Variable:
     @data.setter
     def data(self, new: _data_dtype):
         """
+        Data setter, upate Variable/Tensor data manually.
+
         WARNING; this operation will bump the version of Variable instance,
         which may result in unexpected behaviour (errors too) during backprop.
         Please use this this carefully.
@@ -158,7 +178,9 @@ class Variable:
             gradient (Optional[np.ndarray]): gradient of tensor
         """
         if not self.requires_grad:
-            raise RuntimeError("Called .backward() on a tensor that doesn't require grad.")
+            raise RuntimeError(
+                "Called .backward() on a tensor that doesn't require grad."
+            )
 
         # assume grad is one if not provided
         if gradient is None:
@@ -197,22 +219,28 @@ class Variable:
             if _tensor.is_leaf:
                 if _tensor.grad is None:
                     _tensor._grad = grad  # init grad
-                else:                     # (or)
+                else:  # (or)
                     _tensor._grad += grad  # accumilate grad
                 for hook in _tensor._backward_hooks:
                     hook(_tensor)  # call all hooks (if given)
 
             # processing intermediate tensors
             else:
-                # version safety check (detects illegal in-place between forward and backward)
+                # version safety Check
+                # (detects illegal in-place between forward and backward)
                 ctx = _tensor.grad_fn.ctx
                 snap = ctx.version_snapshot
                 if snap is not None:
                     for parent, seen in zip(ctx.saved_data, snap):
+                        # saved data can contain non-tensor data. too
+                        if not hasattr(parent, "_version"):
+                            continue
                         if parent._version != seen:
                             raise RuntimeError(
-                                f"One of the Variables needed for backward was modified in-place: "\
-                                f"saved version {seen}, current version {parent._version} for: {repr(parent)}"
+                                f"One of the Variables needed for backward was modified in-place: "
+                                f"saved version {seen}, current version {
+                                    parent._version
+                                } for: {repr(parent)}"
                             )
 
                 grad_out = _tensor.grad_fn.backward(grad)  # op-wise backward
@@ -227,12 +255,15 @@ class Variable:
 
                     # inverse-brodcasing, reduce gradient to parent shape (if needed)
                     shape = parent  # assumes parent is Tuple
-                    if _isinstance(parent, "Variable", "Tensor") or isinstance(parent, np.ndarray):
+                    if _isinstance(parent, "Variable", "Tensor") or isinstance(
+                        parent, np.ndarray
+                    ):
                         shape = parent.shape
                     g_out = _unbroadcast(g_out, shape)
 
                     if id(parent) not in grads:
-                        grads[id(parent)] = g_out  # put new tensor+grad in grads
+                        # put new tensor+grad in grads
+                        grads[id(parent)] = g_out
 
                     else:
                         grads[id(parent)] += g_out  # accumulate grad
@@ -242,10 +273,12 @@ class Variable:
 
     def _check_inplace_ok(self):
         if self.requires_grad and not self.is_leaf:
-            raise RuntimeError("In-place modification on a non-leaf Variable that requires grad.")
+            raise RuntimeError(
+                "In-place modification on a non-leaf Variable that requires grad."
+            )
 
     # hooks
-    def register_hook(self, fn: Callable[['Variable'], None]):
+    def register_hook(self, fn: Callable[["Variable"], None]):
         self._backward_hooks.append(fn)
 
     # math operators
@@ -290,7 +323,11 @@ class Variable:
         elif isinstance(other, (int, float, np.ndarray, list)):
             return other
         else:
-            return NotImplementedError(f"other must be either: (int, float, np.ndarray, list), got: {type(other)}")
+            return NotImplementedError(
+                f"other must be either: (int, float, np.ndarray, list), got: {
+                    type(other)
+                }"
+            )
 
     def __eq__(self, other) -> bool:
         other = self._coerce_other(other)
@@ -317,13 +354,9 @@ class Variable:
     def __iadd__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.add(
-                self._data, other._data,
-                out=self._data, casting="unsafe")
+            np.add(self._data, other._data, out=self._data, casting="unsafe")
         else:
-            np.add(
-                self._data, other,
-                out=self._data, casting="unsafe")
+            np.add(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
 
         return type(self)(self)
@@ -331,13 +364,9 @@ class Variable:
     def __isub__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.subtract(
-                self._data, other._data,
-                out=self._data, casting="unsafe")
+            np.subtract(self._data, other._data, out=self._data, casting="unsafe")
         else:
-            np.subtract(
-                self._data, other,
-                out=self._data, casting="unsafe")
+            np.subtract(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
 
         return type(self)(self)
@@ -345,13 +374,9 @@ class Variable:
     def __imul__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.multiply(
-                self._data, other._data,
-                out=self._data, casting="unsafe")
+            np.multiply(self._data, other._data, out=self._data, casting="unsafe")
         else:
-            np.multiply(
-                self._data, other,
-                out=self._data, casting="unsafe")
+            np.multiply(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
 
         return type(self)(self)
@@ -359,13 +384,9 @@ class Variable:
     def __itruediv__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.true_divide(
-                self._data, other._data,
-                out=self._data, casting="unsafe")
+            np.true_divide(self._data, other._data, out=self._data, casting="unsafe")
         else:
-            np.true_divide(
-                self._data, other,
-                out=self._data, casting="unsafe")
+            np.true_divide(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
 
         return type(self)(self)
@@ -373,13 +394,9 @@ class Variable:
     def __ipow__(self, other) -> Union["Variable", "Tensor"]:
         self._check_inplace_ok()
         if isinstance(other, Variable):
-            np.power(
-                self._data, other._data,
-                out=self._data, casting="unsafe")
+            np.power(self._data, other._data, out=self._data, casting="unsafe")
         else:
-            np.power(
-                self._data, other,
-                out=self._data, casting="unsafe")
+            np.power(self._data, other, out=self._data, casting="unsafe")
         self._bump_version()
 
         return type(self)(self)
@@ -407,7 +424,11 @@ class Variable:
         Returns:
             Variable, if in_place = False
         """
-        out = self.data.squeeze(axis=dim) if not in_place else self._data.squeeze(axis=dim)
+        out = (
+            self.data.squeeze(axis=dim)
+            if not in_place
+            else self._data.squeeze(axis=dim)
+        )
         return type(self)(out)
 
     # ====== Tensor functions ====== #
@@ -420,16 +441,12 @@ class Variable:
         return transpose(self)
 
     def sum(
-        self,
-        dim: Optional[Union[int, tuple]] = None,
-        keepdims: bool = False
+        self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False
     ) -> Union["Variable", "Tensor"]:
         return tensor_sum(a=self, dim=dim, keepdims=keepdims)
 
     def mean(
-        self,
-        dim: Optional[Union[int, tuple]] = None,
-        keepdims: bool = False
+        self, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False
     ) -> Union["Variable", "Tensor"]:
         return mean(a=self, dim=dim, keepdims=keepdims)
 
@@ -488,6 +505,7 @@ class Variable:
 
 # Helpers for the tensor class (not accessed outside this file.)
 
+
 def _isinstance(x: Any, *class_name: str):
     """Check if x is instance of any clas_name"""
     return x.__class__.__name__ in class_name
@@ -518,18 +536,14 @@ def enforce_tensor(x: Any) -> Variable:
     """
     if isinstance(x, Variable):
         return x
-    return Variable(
-        np.array(x, dtype=float),
-        requires_grad=False,
-        is_leaf=True
-    )
+    return Variable(np.array(x, dtype=float), requires_grad=False, is_leaf=True)
 
 
 def _wrap_forward(
     fn_cls: Type[Function],
     *parents: Union[Variable, "Tensor"],
     result_cls=None,
-    **kwargs
+    **kwargs,
 ) -> Union[Variable, "Tensor"]:
     """
     autograd safe tensor/variable operations. This function is used to
@@ -563,21 +577,22 @@ def _wrap_forward(
         if len(classes) == 1:
             result_cls = classes.pop()
         else:
-            tensor_presedence = (type(p) for p in parents
-                                 if p.__class__.__name__ == "Tensor")
+            tensor_presedence = (
+                type(p) for p in parents if p.__class__.__name__ == "Tensor"
+            )
             result_cls = next(tensor_presedence, Variable)
 
     # Create output as tensor
     if result_cls.__name__ == "Tensor":
-        devices = [p.device for p in parents if hasattr(p, "device")]
+        devices = [p.device for p in parents if p.__class__.__name__ == "Tensor"]
         device = devices[-1]  # ISSUE: device presedence needs to be provided
         out = result_cls(
-                data=out_data,
-                requires_grad=any(p.requires_grad for p in parents),
-                grad_fn=None,  # Will be assigned after
-                is_leaf=False,
-                device=device,  # pyright: ignore
-            )
+            data=out_data,
+            requires_grad=any(p.requires_grad for p in parents),
+            grad_fn=None,  # Will be assigned after
+            is_leaf=False,
+            device=device,  # pyright: ignore
+        )
     # Create output as Variable
     else:
         out = Variable(
@@ -628,11 +643,7 @@ def matmul(a, b):
     return _wrap_forward(MatMul, a, b)
 
 
-def tensor_sum(
-    a,
-    dim: Optional[Union[int, tuple]] = None,
-    keepdims: bool = False
-):
+def tensor_sum(a, dim: Optional[Union[int, tuple]] = None, keepdims: bool = False):
     a = enforce_tensor(a)
     return _wrap_forward(VariableSum, a, dim=dim, keepdims=keepdims)
 
