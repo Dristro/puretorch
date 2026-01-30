@@ -1,0 +1,379 @@
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/add.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Add.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/add.py:14:9
+   |
+14 |     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Add.forward` has type `BoundMethod[Add, (self: Add, a: Unknown, b: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Add, (self: Add) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Add.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/add.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Add.backward` has type `BoundMethod[Add, (self: Add, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> tuple[ndarray[tuple[Any, ...], dtype[Any]], ndarray[tuple[Any, ...], dtype[Any]]]]`, which is not assignable to `BoundMethod[Add, (self: Add, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/div.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Div.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/div.py:14:9
+   |
+14 |     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Div.forward` has type `BoundMethod[Div, (self: Div, a: Unknown, b: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Div, (self: Div) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Div.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/div.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Div.backward` has type `BoundMethod[Div, (self: Div, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> tuple[Unknown, Unknown]]`, which is not assignable to `BoundMethod[Div, (self: Div, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/exp.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Exp.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/exp.py:14:9
+   |
+14 |     def forward(self, a: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Exp.forward` has type `BoundMethod[Exp, (self: Exp, a: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Exp, (self: Exp) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/log.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Log.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/log.py:14:9
+   |
+14 |     def forward(self, a: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Log.forward` has type `BoundMethod[Log, (self: Log, a: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Log, (self: Log) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/matmul.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `MatMul.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/matmul.py:14:9
+   |
+14 |     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `MatMul.forward` has type `BoundMethod[MatMul, (self: MatMul, a: Unknown, b: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[MatMul, (self: MatMul) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `MatMul.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/matmul.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `MatMul.backward` has type `BoundMethod[MatMul, (self: MatMul, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> tuple[Unknown, Unknown]]`, which is not assignable to `BoundMethod[MatMul, (self: MatMul, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/mean.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Mean.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/mean.py:14:9
+   |
+14 |     def forward(self, a: "Variable", dim=None, keepdims=False):
+   |         ^^^^^^^
+   |
+  `Mean.forward` has type `BoundMethod[Mean, (self: Mean, a: Unknown, dim: Unknown | None = None, keepdims: bool | Unknown = False) -> Any]`, which is not assignable to `BoundMethod[Mean, (self: Mean) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Cannot set item in `list[Never]` [unsupported-operation]
+  --> autograd/python/ops/mean.py:42:17
+   |
+42 |                 shp[d] = 1
+   |                 ^^^^^^
+   |
+  No matching overload found for function `list.__setitem__` called with arguments: (Unknown, Literal[1])
+  Possible overloads:
+  (key: SupportsIndex, value: Never, /) -> None [closest match]
+  (key: slice[Any, Any, Any], value: Iterable[Never], /) -> None
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/mul.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Mul.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/mul.py:14:9
+   |
+14 |     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Mul.forward` has type `BoundMethod[Mul, (self: Mul, a: Unknown, b: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Mul, (self: Mul) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Mul.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/mul.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Mul.backward` has type `BoundMethod[Mul, (self: Mul, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> tuple[Unknown, Unknown]]`, which is not assignable to `BoundMethod[Mul, (self: Mul, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/neg.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Neg.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/neg.py:14:9
+   |
+14 |     def forward(self, a: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Neg.forward` has type `BoundMethod[Neg, (self: Neg, a: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Neg, (self: Neg) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Neg.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/neg.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Neg.backward` has type `BoundMethod[Neg, (self: Neg, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Neg, (self: Neg, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/pow.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Pow.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/pow.py:15:9
+   |
+15 |     def forward(self, a: "Variable", exponent: Union[int, float]):
+   |         ^^^^^^^
+   |
+  `Pow.forward` has type `BoundMethod[Pow, (self: Pow, a: Unknown, exponent: float | int) -> Unknown]`, which is not assignable to `BoundMethod[Pow, (self: Pow) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Could not find import of `variable` [missing-import]
+  --> autograd/python/ops/relu.py:11:5
+   |
+11 |     from variable import Variable
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `ReLU.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/relu.py:22:9
+   |
+22 |     def forward(self, a: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `ReLU.forward` has type `BoundMethod[ReLU, (self: ReLU, a: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[ReLU, (self: ReLU) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/reshape.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Reshape.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/reshape.py:15:9
+   |
+15 |     def forward(self, a: "Variable", shape: Tuple[int, ...]):
+   |         ^^^^^^^
+   |
+  `Reshape.forward` has type `BoundMethod[Reshape, (self: Reshape, a: Unknown, shape: tuple[int, ...]) -> Unknown]`, which is not assignable to `BoundMethod[Reshape, (self: Reshape) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Reshape.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/reshape.py:19:9
+   |
+19 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Reshape.backward` has type `BoundMethod[Reshape, (self: Reshape, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Reshape, (self: Reshape, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/sub.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Sub.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/sub.py:14:9
+   |
+14 |     def forward(self, a: "Variable", b: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Sub.forward` has type `BoundMethod[Sub, (self: Sub, a: Unknown, b: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Sub, (self: Sub) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Sub.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/sub.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Sub.backward` has type `BoundMethod[Sub, (self: Sub, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> tuple[ndarray[tuple[Any, ...], dtype[Any]], ndarray[tuple[Any, ...], dtype[Any]]]]`, which is not assignable to `BoundMethod[Sub, (self: Sub, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/transpose.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `Transpose.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/transpose.py:14:9
+   |
+14 |     def forward(self, a: "Variable") -> np.ndarray:
+   |         ^^^^^^^
+   |
+  `Transpose.forward` has type `BoundMethod[Transpose, (self: Transpose, a: Unknown) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Transpose, (self: Transpose) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `Transpose.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/transpose.py:18:9
+   |
+18 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `Transpose.backward` has type `BoundMethod[Transpose, (self: Transpose, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[Transpose, (self: Transpose, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Could not find import of `variable` [missing-import]
+ --> autograd/python/ops/variable_sum.py:3:5
+  |
+3 |     from variable import Variable
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  Looked in these locations (from config in `/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch/pyproject.toml`):
+  Import root (inferred from project layout): "/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/puretorch"
+  Site package path queried from interpreter: ["/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/lib-dynload", "/Users/dhruvnandigam/anaconda3/envs/puretorch/lib/python3.11/site-packages"]
+ERROR Class member `VariableSum.forward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/variable_sum.py:15:9
+   |
+15 |     def forward(
+   |         ^^^^^^^
+   |
+  `VariableSum.forward` has type `BoundMethod[VariableSum, (self: VariableSum, a: Unknown, dim: int | tuple[int] | None = None, keepdims: bool = False) -> Any]`, which is not assignable to `BoundMethod[VariableSum, (self: VariableSum) -> ndarray[tuple[Any, ...], dtype[Any]]]`, the type of `Function.forward`
+ERROR Class member `VariableSum.backward` overrides parent class `Function` in an inconsistent manner [bad-override]
+  --> autograd/python/ops/variable_sum.py:33:9
+   |
+33 |     def backward(self, grad_output: np.ndarray):
+   |         ^^^^^^^^
+   |
+  `VariableSum.backward` has type `BoundMethod[VariableSum, (self: VariableSum, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> ndarray[tuple[Any, ...], dtype[Any]]]`, which is not assignable to `BoundMethod[VariableSum, (self: VariableSum, grad_output: ndarray[tuple[Any, ...], dtype[Any]]) -> Never]`, the type of `Function.backward`
+ERROR Cannot set item in `list[Never]` [unsupported-operation]
+  --> autograd/python/ops/variable_sum.py:47:17
+   |
+47 |                 shp[d] = 1
+   |                 ^^^^^^
+   |
+  No matching overload found for function `list.__setitem__` called with arguments: (Unknown, Literal[1])
+  Possible overloads:
+  (key: SupportsIndex, value: Never, /) -> None [closest match]
+  (key: slice[Any, Any, Any], value: Iterable[Never], /) -> None
+ERROR No matching overload found for function `numpy._typing._ufunc._UFunc_Nin2_Nout1.__call__` called with arguments: (ndarray[tuple[Any, ...], dtype[Any]], NotImplementedError | float | int | list[Unknown] | ndarray[tuple[Any, ...], dtype[Any]]) [no-matching-overload]
+   --> autograd/python/variable.py:338:24
+    |
+338 |         return np.equal(self.data, other)
+    |                        ^^^^^^^^^^^^^^^^^^
+    |
+  Possible overloads:
+  (x1: _ScalarLike_co, x2: _ScalarLike_co, /, out: None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> Any
+  (x1: ArrayLike, x2: ndarray[tuple[Any, ...], dtype[generic[Any]]], /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] [closest match]
+  (x1: ndarray[tuple[Any, ...], dtype[generic[Any]]], x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]], *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] | Any
+ERROR No matching overload found for function `numpy._typing._ufunc._UFunc_Nin2_Nout1.__call__` called with arguments: (ndarray[tuple[Any, ...], dtype[Any]], NotImplementedError | float | int | list[Unknown] | ndarray[tuple[Any, ...], dtype[Any]]) [no-matching-overload]
+   --> autograd/python/variable.py:342:23
+    |
+342 |         return np.less(self.data, other)
+    |                       ^^^^^^^^^^^^^^^^^^
+    |
+  Possible overloads:
+  (x1: _ScalarLike_co, x2: _ScalarLike_co, /, out: None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> Any
+  (x1: ArrayLike, x2: ndarray[tuple[Any, ...], dtype[generic[Any]]], /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] [closest match]
+  (x1: ndarray[tuple[Any, ...], dtype[generic[Any]]], x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]], *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] | Any
+ERROR No matching overload found for function `numpy._typing._ufunc._UFunc_Nin2_Nout1.__call__` called with arguments: (ndarray[tuple[Any, ...], dtype[Any]], NotImplementedError | float | int | list[Unknown] | ndarray[tuple[Any, ...], dtype[Any]]) [no-matching-overload]
+   --> autograd/python/variable.py:346:26
+    |
+346 |         return np.greater(self.data, other)
+    |                          ^^^^^^^^^^^^^^^^^^
+    |
+  Possible overloads:
+  (x1: _ScalarLike_co, x2: _ScalarLike_co, /, out: None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> Any
+  (x1: ArrayLike, x2: ndarray[tuple[Any, ...], dtype[generic[Any]]], /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] [closest match]
+  (x1: ndarray[tuple[Any, ...], dtype[generic[Any]]], x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]], *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] | Any
+ERROR No matching overload found for function `numpy._typing._ufunc._UFunc_Nin2_Nout1.__call__` called with arguments: (ndarray[tuple[Any, ...], dtype[Any]], NotImplementedError | float | int | list[Unknown] | ndarray[tuple[Any, ...], dtype[Any]]) [no-matching-overload]
+   --> autograd/python/variable.py:350:29
+    |
+350 |         return np.less_equal(self.data, other)
+    |                             ^^^^^^^^^^^^^^^^^^
+    |
+  Possible overloads:
+  (x1: _ScalarLike_co, x2: _ScalarLike_co, /, out: None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> Any
+  (x1: ArrayLike, x2: ndarray[tuple[Any, ...], dtype[generic[Any]]], /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] [closest match]
+  (x1: ndarray[tuple[Any, ...], dtype[generic[Any]]], x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]], *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] | Any
+ERROR No matching overload found for function `numpy._typing._ufunc._UFunc_Nin2_Nout1.__call__` called with arguments: (ndarray[tuple[Any, ...], dtype[Any]], NotImplementedError | float | int | list[Unknown] | ndarray[tuple[Any, ...], dtype[Any]]) [no-matching-overload]
+   --> autograd/python/variable.py:354:32
+    |
+354 |         return np.greater_equal(self.data, other)
+    |                                ^^^^^^^^^^^^^^^^^^
+    |
+  Possible overloads:
+  (x1: _ScalarLike_co, x2: _ScalarLike_co, /, out: None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> Any
+  (x1: ArrayLike, x2: ndarray[tuple[Any, ...], dtype[generic[Any]]], /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] [closest match]
+  (x1: ndarray[tuple[Any, ...], dtype[generic[Any]]], x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]], *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]]
+  (x1: ArrayLike, x2: ArrayLike, /, out: ndarray[tuple[Any, ...], dtype[generic[Any]]] | tuple[ndarray[tuple[Any, ...], dtype[generic[Any]]]] | None = None, *, dtype: _SupportsDType[dtype[Any]] | dtype[Any] | list[Any] | str | _DTypeDict | tuple[Any, Any] | type[Any] | None = None, **kwds: Unpack[_UFunc3Kwargs]) -> ndarray[tuple[Any, ...], dtype[Any]] | Any
+ERROR Object of class `Variable` has no attribute `device` [missing-attribute]
+   --> autograd/python/variable.py:596:20
+    |
+596 |         devices = [p.device for p in parents if p.__class__.__name__ == "Tensor"]
+    |                    ^^^^^^^^
+    |
+ERROR Unexpected keyword argument `device` in function `Variable.__init__` [unexpected-keyword]
+   --> autograd/python/variable.py:603:13
+    |
+603 |             device=device,
+    |             ^^^^^^
+    |

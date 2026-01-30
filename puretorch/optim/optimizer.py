@@ -1,8 +1,8 @@
 import puretorch
-from typing import DefaultDict, List, Dict, Any, cast
+from typing import DefaultDict, List, Dict, Any
 from collections import defaultdict
 from abc import abstractmethod
-# Base class for all optimizer classes, be it custom or defaults
+
 
 class Optimizer:
     """
@@ -10,10 +10,13 @@ class Optimizer:
     Args:
         params: iterable of PureTorch.Tensor's. Parameters to optimized
     """
+
     def __init__(self, params):
         if not isinstance(params, (tuple, list)) and not hasattr(params, "__iter__"):
-            raise TypeError("Parameters must be an iterable with Tensors or dicts, got: "
-                            + params.__class__.__name__)
+            raise TypeError(
+                "Parameters must be an iterable with Tensors or dicts, got: ",
+                + params.__class__.__name__
+            )
 
         self.state: DefaultDict[puretorch.Tensor, Any] = defaultdict(dict)
         self.param_groups: List[Dict[str, Any]] = []
@@ -23,7 +26,7 @@ class Optimizer:
             raise ValueError("No parameters to optimize.")
         if not isinstance(param_groups[0], dict):
             param_groups = [{"params": param_groups}]
-        self.param_groups = param_groups # List of Dicts, where key = "params"
+        self.param_groups = param_groups  # List of Dicts, where key = "params"
 
     def zero_grad(self, set_to_none: bool = False):
         """
@@ -40,8 +43,10 @@ class Optimizer:
                         try:
                             param.zero_grad()
                         except AttributeError:
-                            raise TypeError("Parameter does not support 'zero_grad'; ensure all parameters are "
-                                            "PureTorch.Tensors.")
+                            raise TypeError(
+                                "Parameter does not support 'zero_grad'; ensure all parameters are "
+                                "PureTorch.Tensors."
+                            )
 
     # The step method must be defined for each optimizer
     @abstractmethod

@@ -1,0 +1,29 @@
+puretorch.tests package
+=======================
+
+Submodules
+----------
+
+puretorch.tests.autograd\_tests module
+--------------------------------------
+
+.. automodule:: puretorch.tests.autograd_tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.tests.tensor\_tests module
+------------------------------------
+
+.. automodule:: puretorch.tests.tensor_tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: puretorch.tests
+   :members:
+   :show-inheritance:
+   :undoc-members:

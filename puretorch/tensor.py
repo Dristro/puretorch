@@ -2,6 +2,7 @@ import numpy as np
 from typing import Union, Optional
 from autograd import Variable, Function
 
+
 class Tensor(Variable):
     def __init__(
         self,
@@ -36,24 +37,21 @@ class Tensor(Variable):
     @property
     def item(self):
         return self.data
-    
-    def item(self):  # another way to get item
-        return self.data
-    
+
     def relu(self) -> "Tensor":
         return self._relu()
 
     def __getitem__(self, idx: int):
         return self._data[idx]
-        
+
     def __repr__(self):
-        #return f"tensor({self.data}, requires_grad={self.requires_grad}, device={self.device}, dtype={self.dtype})"
+        # return f"tensor({self.data}, requires_grad={self.requires_grad}, device={self.device}, dtype={self.dtype})"
         formatted_data = np.array2string(
-            self.data,
-            precision=4,
-            suppress_small=True,
-            separator=', ',
-            prefix=' ' * 7
+            self.data, precision=4, suppress_small=True, separator=", ", prefix=" " * 7
         )
-        statement = f"tensor({formatted_data}, requires_grad={self.requires_grad})" if self.requires_grad else f"tensor({formatted_data})"
+        statement = (
+            f"tensor({formatted_data}, requires_grad={self.requires_grad})"
+            if self.requires_grad
+            else f"tensor({formatted_data})"
+        )
         return statement

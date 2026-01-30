@@ -1,0 +1,30 @@
+puretorch.puretorch package
+===========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   puretorch.puretorch.nn
+   puretorch.puretorch.optim
+
+Submodules
+----------
+
+puretorch.puretorch.tensor module
+---------------------------------
+
+.. automodule:: puretorch.puretorch.tensor
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: puretorch.puretorch
+   :members:
+   :show-inheritance:
+   :undoc-members:

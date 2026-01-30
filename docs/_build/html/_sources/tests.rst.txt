@@ -1,0 +1,29 @@
+tests package
+=============
+
+Submodules
+----------
+
+tests.autograd\_tests module
+----------------------------
+
+.. automodule:: tests.autograd_tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+tests.tensor\_tests module
+--------------------------
+
+.. automodule:: tests.tensor_tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: tests
+   :members:
+   :show-inheritance:
+   :undoc-members:

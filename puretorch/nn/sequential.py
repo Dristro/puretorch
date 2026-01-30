@@ -1,9 +1,8 @@
 from puretorch import Tensor, nn
 
+
 class Sequential(nn.Module):
-    def __init__(self,
-                 *modules: nn.Module,
-                 name: str = "Sequential model"):
+    def __init__(self, *modules: nn.Module, name: str = "Sequential model"):
         """
         Creates a new Sequential instance with the given layers.
 
@@ -15,10 +14,10 @@ class Sequential(nn.Module):
             None, creates a model instance
         """
         super().__init__()
-        for i,m in enumerate(modules):
+        for i, m in enumerate(modules):
             self.add_module(f"{str(m.__class__)}{str(i)}", m)
-        #self.layers = layers
-        #self.name = name
+        # self.layers = layers
+        # self.name = name
 
     def forward(self, x: Tensor) -> Tensor:
         """
@@ -32,11 +31,11 @@ class Sequential(nn.Module):
         for m in self.children():
             x = m(x)
         return x
-        #for layer in self.layers:
+        # for layer in self.layers:
         #    x = layer.forward(x)
-        #return x
+        # return x
 
-    #def parameters(self):
+    # def parameters(self):
     #    """
     #    Runs through each layer in the Sequential instance and gets the parameters from each layer and returns a list
     #    with the parameters of the model.
@@ -48,8 +47,8 @@ class Sequential(nn.Module):
     #    for layer in self.layers:
     #        yield from layer.parameters()
 
-    #def __call__(self, x):
+    # def __call__(self, x):
     #    return self.forward(x)
-    
+
     def __repr__(self):
         return f"[INFO] add this later, not that important"

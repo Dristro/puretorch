@@ -1,0 +1,53 @@
+puretorch.autograd package
+==========================
+
+Submodules
+----------
+
+puretorch.autograd.context module
+---------------------------------
+
+.. automodule:: puretorch.autograd.context
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.autograd.function module
+----------------------------------
+
+.. automodule:: puretorch.autograd.function
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.autograd.grad\_mode module
+------------------------------------
+
+.. automodule:: puretorch.autograd.grad_mode
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.autograd.ops module
+-----------------------------
+
+.. automodule:: puretorch.autograd.ops
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.autograd.variable module
+----------------------------------
+
+.. automodule:: puretorch.autograd.variable
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: puretorch.autograd
+   :members:
+   :show-inheritance:
+   :undoc-members:

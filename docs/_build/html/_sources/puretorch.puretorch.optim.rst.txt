@@ -1,0 +1,29 @@
+puretorch.puretorch.optim package
+=================================
+
+Submodules
+----------
+
+puretorch.puretorch.optim.optimizer module
+------------------------------------------
+
+.. automodule:: puretorch.puretorch.optim.optimizer
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+puretorch.puretorch.optim.sgd module
+------------------------------------
+
+.. automodule:: puretorch.puretorch.optim.sgd
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: puretorch.puretorch.optim
+   :members:
+   :show-inheritance:
+   :undoc-members:

@@ -4,6 +4,7 @@ from typing import Union
 from .context import Context
 from .function import Function
 
+
 class Add(Function):
     @staticmethod
     def forward(ctx: Context, a: np.ndarray, b: np.ndarray):
@@ -14,6 +15,7 @@ class Add(Function):
     def backward(ctx: Context, grad_output: np.ndarray):
         return grad_output, grad_output
 
+
 class Sub(Function):
     @staticmethod
     def forward(ctx: Context, a: np.ndarray, b: np.ndarray):
@@ -23,6 +25,7 @@ class Sub(Function):
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         return grad_output, -grad_output
+
 
 class Mul(Function):
     @staticmethod
@@ -35,6 +38,7 @@ class Mul(Function):
         a, b = ctx.saved_tensors
         return grad_output * b, grad_output * a
 
+
 class Div(Function):
     @staticmethod
     def forward(ctx: Context, a: np.ndarray, b: np.ndarray):
@@ -44,7 +48,8 @@ class Div(Function):
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         a, b = ctx.saved_tensors
-        return grad_output / b, -grad_output * a / (b ** 2)
+        return grad_output / b, -grad_output * a / (b**2)
+
 
 class Neg(Function):
     @staticmethod
@@ -54,6 +59,7 @@ class Neg(Function):
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         return -grad_output
+
 
 class MatMul(Function):
     @staticmethod
@@ -68,6 +74,7 @@ class MatMul(Function):
         db = a.T @ grad_output
         return da, db
 
+
 class Transpose(Function):
     @staticmethod
     def forward(ctx: Context, a):
@@ -76,8 +83,9 @@ class Transpose(Function):
 
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
-        #(orig_shape,) = ctx.saved_tensors  # DEBUG
+        # (orig_shape,) = ctx.saved_tensors  # DEBUG
         return grad_output.T
+
 
 class Reshape(Function):
     @staticmethod
@@ -89,6 +97,7 @@ class Reshape(Function):
     def backward(ctx: Context, grad_output: np.ndarray):
         (orig_shape,) = ctx.saved_tensors
         return grad_output.reshape(orig_shape)
+
 
 class ReLU(Function):
     @staticmethod
@@ -102,18 +111,22 @@ class ReLU(Function):
         grad = grad_output * (a > 0).astype(float)
         return grad
 
+
 class Pow(Function):
     @staticmethod
     def forward(ctx: Context, a: np.ndarray, exponent: Union[int, float]):
-        assert isinstance(exponent, (int, float)), f"Exponent must be int or float, got: {exponent}"
+        assert isinstance(exponent, (int, float)), (
+            f"Exponent must be int or float, got: {exponent}"
+        )
         ctx.save_for_backward(a, exponent)
-        return a ** exponent
+        return a**exponent
 
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         a, exponent = ctx.saved_tensors
         return grad_output * exponent * (a ** (exponent - 1))
-    
+
+
 class VariableSum(Function):
     ###
     # Used chatgpt to fix bugs in this code, leading to issues with ce-loss
@@ -155,6 +168,7 @@ class VariableSum(Function):
 
         return np.ones(shape, dtype=grad_output.dtype) * grad_output
 
+
 class Mean(Function):
     ###
     # Used chatgpt to fix bugs in this code, leading to issues with ce-loss
@@ -191,17 +205,19 @@ class Mean(Function):
 
         return (np.ones(shape, dtype=grad_output.dtype) * grad_output) / denom
 
+
 class Exp(Function):
     @staticmethod
     def forward(ctx: Context, a: np.ndarray):
         out = np.exp(a)
         ctx.save_for_backward(out)
         return out
-    
+
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         out = ctx.saved_tensors
         return grad_output * out
+
 
 class Log(Function):
     @staticmethod
@@ -212,4 +228,4 @@ class Log(Function):
     @staticmethod
     def backward(ctx: Context, grad_output: np.ndarray):
         a = ctx.saved_tensors
-        return grad_output/a
+        return grad_output / a

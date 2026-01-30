@@ -1,0 +1,3 @@
+/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/PureTorch/build/CMakeFiles/puretorch.dir
+/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/PureTorch/build/CMakeFiles/edit_cache.dir
+/Users/dhruvnandigam/Desktop/Dhruv/Programing/NN/Packages/PureTorch/build/CMakeFiles/rebuild_cache.dir

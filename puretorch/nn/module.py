@@ -1,12 +1,14 @@
-from typing import List, Iterator, Any
+from typing import Iterator, Any
 
 from puretorch import nn
+
 
 class Module:
     """
     Base module class.
     Handles module's train/eval modes only (as of now).
     """
+
     def __init__(self) -> None:
         self._modules = {}
         self._parameters = {}
@@ -17,15 +19,15 @@ class Module:
 
     def register_param(self, name: str, param: nn.Parameter):
         self._parameters[name] = param
-    
+
     def children(self) -> Iterator["Module"]:
         return self._modules.values()
-    
+
     def parameters(self) -> Iterator[nn.Parameter]:
         # module's params
         for p in self._parameters.values():
             yield p
-        
+
         # child module(s) params
         # doing that recursively
         for m in self.children():

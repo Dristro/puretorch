@@ -1,0 +1,1081 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tests.tensor_tests &#8212; puretorch 1.1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/tests/tensor_tests';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">puretorch 1.1.1 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    puretorch
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.autograd.html">
+    puretorch.autograd package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.nn.html">
+    puretorch.puretorch.nn package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.optim.html">
+    puretorch.puretorch.optim package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.html">
+    puretorch.puretorch package
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../puretorch.html">
+    puretorch package
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../puretorch.tests.html">
+    puretorch.tests package
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../modules.html">
+    puretorch
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.autograd.html">
+    puretorch.autograd package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.nn.html">
+    puretorch.puretorch.nn package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.optim.html">
+    puretorch.puretorch.optim package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.puretorch.html">
+    puretorch.puretorch package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.html">
+    puretorch package
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../puretorch.tests.html">
+    puretorch.tests package
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">tests.tensor_tests</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for tests.tensor_tests</h1><div class="highlight"><pre>
+<span></span><span class="c1"># tests/tensor_tests.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">puretorch</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">puretorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">puretorch</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">puretorch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
+
+
+<span class="c1"># same tests as tests/autograd_tests.py</span>
+<div class="viewcode-block" id="test_add">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_add">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_add</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_sub">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_sub">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_sub</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">-</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_mul">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_mul">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_mul</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_div">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_div">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_div</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">/</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_t1_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">expected_t2_grad</span> <span class="o">=</span> <span class="o">-</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_t1_grad</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_t2_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_pow">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_pow">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_pow</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exponent</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">**</span> <span class="n">exponent</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="n">exponent</span> <span class="o">*</span> <span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span> <span class="o">**</span> <span class="p">(</span><span class="n">exponent</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_neg">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_neg">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_neg</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="o">-</span><span class="n">t1</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_scalar_ops">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_scalar_ops">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_scalar_ops</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mf">2.5</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.5</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_matmul">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_matmul">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_matmul</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">@</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_t1_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">@</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">expected_t2_grad</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_t1_grad</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_t2_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_sum">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_sum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_sum</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_sum_dim">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_sum_dim">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_sum_dim</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,)))</span>  <span class="c1"># upstream gradient shape matches reduced shape</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_broadcasting_add">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_broadcasting_add">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_broadcasting_add</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># summed over axis 0</span></div>
+
+
+
+<div class="viewcode-block" id="test_gradient_accumulation">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_gradient_accumulation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_gradient_accumulation</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">out1</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="n">out2</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_requires_grad_false">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_requires_grad_false">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_requires_grad_false</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_complex_graph">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_complex_graph">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_complex_graph</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t3</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t4</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t5</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">@</span> <span class="n">t2</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">t3</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">@</span> <span class="n">t4</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">@</span> <span class="n">t5</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">[</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">t3</span><span class="p">,</span> <span class="n">t4</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_allclose</span><span class="p">(</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(((</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span> <span class="o">@</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">t3</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">@</span> <span class="n">t4</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">@</span> <span class="n">t5</span><span class="o">.</span><span class="n">data</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_chain_operations">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_chain_operations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_chain_operations</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">((</span><span class="n">t1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">t2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">assert</span> <span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span></div>
+
+
+
+<div class="viewcode-block" id="test_multiple_outputs_and_branches">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_multiple_outputs_and_branches">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_multiple_outputs_and_branches</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="n">out2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">final</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_mean">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_mean">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_mean</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_advanced_broadcasting_mul">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_advanced_broadcasting_mul">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_advanced_broadcasting_mul</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t2</span>  <span class="c1"># broadcast to (5, 3, 4)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">assert</span> <span class="n">t2</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">t2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span></div>
+
+
+
+<div class="viewcode-block" id="test_grad_non_leaf_tensor">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_grad_non_leaf_tensor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_grad_non_leaf_tensor</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    
+    <span class="c1"># b is not a leaf, so the gradient is never &#39;stored&#39;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">b</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">out</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="test_scalar_tensor">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_scalar_tensor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_scalar_tensor</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">5.0</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># (a + 1)^2</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_exp_log">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_exp_log">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_exp_log</span><span class="p">():</span>
+    <span class="c1"># keep inputs strictly positive for log()</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">x_data</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span>  <span class="c1"># (0.5, 1.5)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    
+    <span class="n">expected_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">x_data</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected_grad</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    <span class="n">num_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x_data</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">x_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x_data</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">x_pos</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eps</span>
+        <span class="n">x_neg</span> <span class="o">=</span> <span class="n">x_data</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">x_neg</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-=</span> <span class="n">eps</span>
+        <span class="n">f_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x_pos</span><span class="p">))</span>
+        <span class="n">f_neg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x_neg</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x_neg</span><span class="p">))</span>
+        <span class="n">num_grad</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f_pos</span> <span class="o">-</span> <span class="n">f_neg</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">num_grad</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_gradient_accumulation_multiple_backward">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_gradient_accumulation_multiple_backward">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_gradient_accumulation_multiple_backward</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="mi">4</span>
+
+    <span class="n">out1</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">out2</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_clone">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_clone">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_clone</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="mi">0</span>  <span class="c1"># clone via noop</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_zero_grad_behavior">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_zero_grad_behavior">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_zero_grad_behavior</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># First backward</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">first_grad</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">first_grad</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="c1"># Zero grad should set grad to None</span>
+    <span class="n">t1</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="c1"># Backward again with a new forward</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="test_reshape_and_transpose">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_reshape_and_transpose">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_reshape_and_transpose</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">t3</span> <span class="o">=</span> <span class="n">t2</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># transpose</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">t3</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># The derivative of sum wrt every element is 1</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t1</span><span class="o">.</span><span class="n">data</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="test_inplace_breaks_ctx_snapshot">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_inplace_breaks_ctx_snapshot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_inplace_breaks_ctx_snapshot</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>        <span class="c1"># snapshots a._version</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>                <span class="c1"># bump a._version</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_inplace_on_nonleaf_disallowed">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_inplace_on_nonleaf_disallowed">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_inplace_on_nonleaf_disallowed</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">2</span>                  <span class="c1"># non-leaf that requires grad</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test_inplace_update_bw_out">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_inplace_update_bw_out">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_inplace_update_bw_out</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>        <span class="c1"># snapshots a._version</span>
+    <span class="n">a</span> <span class="o">+=</span> <span class="n">a</span>                <span class="c1"># bump a._version</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_iadd_bumps_version_and_breaks_backward">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_iadd_bumps_version_and_breaks_backward">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_iadd_bumps_version_and_breaks_backward</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">+=</span> <span class="mf">1.0</span>                 <span class="c1"># __iadd__ -&gt; bump version</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_setitem_bumps_version">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_setitem_bumps_version">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_setitem_bumps_version</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>                 <span class="c1"># __setitem__ -&gt; bump version</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="test_data_write_is_blocked">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_data_write_is_blocked">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_data_write_is_blocked</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="mi">1</span>          <span class="c1"># read-only view -&gt; should raise</span>
+        <span class="n">raised</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">raised</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">assert</span> <span class="n">raised</span></div>
+
+
+<div class="viewcode-block" id="test_data_reassign_is_tracked">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_data_reassign_is_tracked">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_data_reassign_is_tracked</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,))</span>   <span class="c1"># goes through setter -&gt; bump version</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># new tests for Tensor</span>
+<div class="viewcode-block" id="test_no_grad_tensor">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_no_grad_tensor">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_no_grad_tensor</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out1</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">out2</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">t2</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="test_enable_grad">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_enable_grad">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_enable_grad</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">enable_grad</span><span class="p">():</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="mi">5</span>
+    <span class="n">out1</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="n">out2</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">t1</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">t2</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="test_cross_entropy_grad_matches_softmax_minus_onehot">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_cross_entropy_grad_matches_softmax_minus_onehot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_cross_entropy_grad_matches_softmax_minus_onehot</span><span class="p">():</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tgt</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+
+    <span class="c1"># forward/backward</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># expected grad: (softmax - onehot)/B</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">oh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">));</span> <span class="n">oh</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">B</span><span class="p">),</span> <span class="n">tgt</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span> <span class="o">-</span> <span class="n">oh</span><span class="p">)</span> <span class="o">/</span> <span class="n">B</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_relu_positive_values">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_relu_positive_values">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_relu_positive_values</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_relu_negative_values">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_relu_negative_values">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_relu_negative_values</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_relu_zero_boundary">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_relu_zero_boundary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_relu_zero_boundary</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_tanh_scalar_against_math">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_tanh_scalar_against_math">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;val&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.5</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_tanh_scalar_against_math</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>  <span class="c1"># reference definition</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">rel_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_tanh_symmetry">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_tanh_symmetry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_tanh_symmetry</span><span class="p">():</span>
+    <span class="c1"># tanh is odd: tanh(-x) == -tanh(x)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">y_pos</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y_neg</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">y_neg</span><span class="p">,</span> <span class="o">-</span><span class="n">y_pos</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_tanh_range">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_tanh_range">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_tanh_range</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># all outputs must be strictly between -1 and 1</span>
+    <span class="c1">#print(f&quot;[DEBUG @ tests/tensor_tests.py] y: {y}&quot;)  # passed, remove in next commit</span>
+    <span class="c1">#print(f&quot;[DEBUG @ tests/tensor_tests.py] y.shape: {y.shape}&quot;)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_tanh_zero_boundary">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.test_tanh_zero_boundary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_tanh_zero_boundary</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">puretorch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="my_func">
+<a class="viewcode-back" href="../../tests.html#tests.tensor_tests.my_func">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_func</span><span class="p">():</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="mi">3</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="p">(</span><span class="n">out1</span> <span class="o">+</span> <span class="n">out2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">final</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] t1:</span><span class="se">\n</span><span class="si">{</span><span class="n">t1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] out1:</span><span class="se">\n</span><span class="si">{</span><span class="n">out1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] out2:</span><span class="se">\n</span><span class="si">{</span><span class="n">out2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] final:</span><span class="se">\n</span><span class="si">{</span><span class="n">final</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">)),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_leaf</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tgt</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] tgt.shape: </span><span class="si">{</span><span class="n">tgt</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[FUN @ tests/tensor_tests.py] tgt:</span><span class="se">\n</span><span class="si">{</span><span class="n">tgt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">my_func</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Dhruv N.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
