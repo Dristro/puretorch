@@ -1,3 +1,14 @@
+[project]
+name = "puretorch"
+version = "0.1.0"
+description = "Custom implementation of a Neural Network library using numpy. Now supporting autograd."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.4.3",
+    "graphviz>=0.20.0",
+]
+
 [build-system]
 requires = [
     "setuptools >= 72",
