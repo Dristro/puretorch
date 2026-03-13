@@ -1,7 +1,20 @@
-dev_notebooks
+# misc
 .idea
-.DS_Store
-__pycache__/
-**/*.pdf
-puretorch.egg-info/
 
+# Python-generated files
+__pycache__/
+*.py[cod]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# OS files
+.DS_Store
+
+# Project files
+dev_notebooks
+**/*.pdf
