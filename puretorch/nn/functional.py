@@ -10,13 +10,17 @@ from puretorch import Tensor
 from .utils import _as_cls_const, _broadcast_class_weight
 
 # activations
+
+
 def relu(x: Tensor) -> Tensor:
     return x.relu()
+
 
 def tanh(x: Tensor) -> Tensor:
     pos = x.exp()
     neg = x.__neg__().exp()
     return (pos - neg) / (pos + neg)
+
 
 def softmax(logits: Tensor, dim: int = -1) -> Tensor:
     # Numerically stable softmax: subtract per-row max
@@ -66,13 +70,15 @@ def cross_entropy(
 
     # targets are distributions / one-hot [..., C]
     if t_data.ndim == ls.data.ndim and t_data.shape[-1] == C:
-        t_const = _as_cls_const(t_data.astype(ls.data.dtype, copy=False), ls)  # no-grad constant
+        t_const = _as_cls_const(
+            t_data.astype(ls.data.dtype, copy=False), ls
+        )  # no-grad constant
         if w is not None:
             per_class_term = t_const * ls * w
         else:
             per_class_term = t_const * ls
         loss_map = -per_class_term.sum(dim=-1)
-        
+
         count_np = np.prod(loss_map.data.shape, dtype=np.int64)
         count = _as_cls_const(np.array(count_np, dtype=ls.data.dtype), ls)
 
@@ -80,9 +86,15 @@ def cross_entropy(
     else:
         # build one-hot mask for selected classes, with ignore support
         if t_data.dtype.kind not in "iu":  # ints only
-            raise ValueError(f"Index targets must be integer-like, got dtype {t_data.dtype} and shape {t_data.shape}")
+            raise ValueError(
+                f"Index targets must be integer-like, got dtype {t_data.dtype} and shape {t_data.shape}"
+            )
         if t_data.shape != ls.data.shape[:-1]:
-            raise ValueError(f"Index targets must have shape {ls.data.shape[:-1]}, got {t_data.shape}")
+            raise ValueError(
+                f"Index targets must have shape {ls.data.shape[:-1]}, got {
+                    t_data.shape
+                }"
+            )
 
         # mask of valid (non-ignored) positions [...]
         valid_mask_np = (t_data != ignore_idx).astype(ls.data.dtype, copy=False)
@@ -91,10 +103,12 @@ def cross_entropy(
         # one-hot [..., C] only for valid indices
         # build flattened one-hot
         flat_targets = t_data.reshape(-1)
-        flat_valid = (flat_targets != ignore_idx)
+        flat_valid = flat_targets != ignore_idx
         onehot_np = np.zeros((flat_targets.size, C), dtype=ls.data.dtype)
         if flat_valid.any():
-            onehot_np[np.arange(flat_targets.size)[flat_valid], flat_targets[flat_valid]] = 1.0
+            onehot_np[
+                np.arange(flat_targets.size)[flat_valid], flat_targets[flat_valid]
+            ] = 1.0
         onehot = _as_cls_const(onehot_np.reshape(*t_data.shape, C), ls)  # no-grad
 
         if w is not None:
@@ -117,4 +131,7 @@ def cross_entropy(
     elif reduction == "sum":
         return num
     else:
-        raise ValueError(f"Got unexpected reduction: {reduction}. Use 'mean', 'sum', or None.")  # better error msg...
+        # better error msg...
+        raise ValueError(
+            f"Got unexpected reduction: {reduction}. Use 'mean', 'sum', or None."
+        )
