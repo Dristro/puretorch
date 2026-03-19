@@ -18,3 +18,4 @@ wheels/
 # Project files
 dev_notebooks
 **/*.pdf
+dist/
