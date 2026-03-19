@@ -1,10 +1,13 @@
 # context manager for gradients #
 
 import contextlib
+
 _grad_enabled = True
+
 
 def is_grad_enabled() -> bool:
     return _grad_enabled
+
 
 @contextlib.contextmanager
 def no_grad():
@@ -15,6 +18,7 @@ def no_grad():
         yield
     finally:
         _grad_enabled = old
+
 
 @contextlib.contextmanager
 def enable_grad():
