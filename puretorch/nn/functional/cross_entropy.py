@@ -1,47 +1,17 @@
 import numpy as np
-from typing import (
-    List,
-    Union,
-    Literal,
-    Optional,
-)
+
+from typing import Literal
 
 from puretorch import Tensor
-from .utils import _as_cls_const, _broadcast_class_weight
-
-# activations
+from . import log_softmax, _as_cls_const, _broadcast_class_weight
 
 
-def relu(x: Tensor) -> Tensor:
-    return x.relu()
-
-
-def tanh(x: Tensor) -> Tensor:
-    pos = x.exp()
-    neg = x.__neg__().exp()
-    return (pos - neg) / (pos + neg)
-
-
-def softmax(logits: Tensor, dim: int = -1) -> Tensor:
-    # Numerically stable softmax: subtract per-row max
-    shift_np = logits.data.max(axis=dim, keepdims=True)
-    shift = _as_cls_const(shift_np, logits)
-    exps = (logits - shift).exp()
-    denom = exps.sum(dim=dim, keepdims=True)
-    return exps / denom
-
-
-def log_softmax(logits: Tensor, dim: int = -1) -> Tensor:
-    return softmax(logits, dim=dim).log()
-
-
-# losses
 def cross_entropy(
     logits: Tensor,
-    targets: Union[np.ndarray, Tensor],
+    targets: np.ndarray | Tensor,
     ignore_idx: int = -100,
-    weight: Optional[Union[np.ndarray, List, Tensor]] = None,
-    reduction: Optional[Literal["mean", "sum"]] = "mean",
+    weight: np.ndarray | list | Tensor | None = None,
+    reduction: Literal["mean", "sum"] = "mean",
 ) -> Tensor:
     """
     Cross-entropy over logits [..., C] and targets:
@@ -52,7 +22,9 @@ def cross_entropy(
         logits (Tensor): tensor of size [B,C]
         targets (Tensor): tensor of size [B,]
         ignore_idx (int): target value that is ignored during loss calculation
-        weight (Tensor, optional): a manual rescaling weight given to each class. If given, it has to be a Tensor of size C. Otherwise, it is treated as if having all ones.
+        weight (Tensor, optional): a manual rescaling weight given to
+            each class. If given, it has to be a Tensor of size C.
+            Otherwise, it is treated as if having all ones.
         reduction (str, optional): reduction applied to output
     Returns:
         Tensor with loss as float
@@ -87,7 +59,9 @@ def cross_entropy(
         # build one-hot mask for selected classes, with ignore support
         if t_data.dtype.kind not in "iu":  # ints only
             raise ValueError(
-                f"Index targets must be integer-like, got dtype {t_data.dtype} and shape {t_data.shape}"
+                f"Index targets must be integer-like, got dtype {
+                    t_data.dtype
+                } and shape {t_data.shape}"
             )
         if t_data.shape != ls.data.shape[:-1]:
             raise ValueError(
