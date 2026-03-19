@@ -10,7 +10,6 @@ import numpy as np
 import puretorch
 
 from puretorch import Tensor
-from puretorch import make_dot
 from puretorch.nn import functional as F
 
 

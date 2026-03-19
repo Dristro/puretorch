@@ -5,7 +5,6 @@ sys.path.append(os.getcwd())
 
 import pytest
 import numpy as np
-from utils import make_dot
 from autograd import Variable
 
 def test_add():
