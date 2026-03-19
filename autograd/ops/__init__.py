@@ -6,7 +6,6 @@ from .neg import Neg
 from .pow import Pow
 from .exp import Exp
 from .log import Log
-from .relu import ReLU
 from .mean import Mean
 from .matmul import MatMul
 from .reshape import Reshape
@@ -22,7 +21,6 @@ __all__ = [
     "Pow",
     "Exp",
     "Log",
-    "ReLU",
     "Mean",
     "MatMul",
     "Reshape",
