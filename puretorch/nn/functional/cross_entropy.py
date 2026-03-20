@@ -37,6 +37,9 @@ def cross_entropy(
         f"targets {targets.shape}."
     )
 
+    if not isinstance(targets, Tensor):
+        targets = Tensor(targets, requires_grad=False)
+
     # ignore idx
     mask = targets.data != ignore_idx
     targets[~mask] = 0
