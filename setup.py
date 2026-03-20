@@ -6,7 +6,7 @@ long_description = (curr_dir / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="puretorch",
-    version="1.1.1",
+    version="1.2.0+dev",
     author="Dhruv",
     description="Custom implementation of a Neural Network library using numpy. Now supporting autograd.",
     long_description=long_description,
