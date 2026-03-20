@@ -7,6 +7,7 @@ from .pow import Pow
 from .exp import Exp
 from .log import Log
 from .mean import Mean
+from .index import Index
 from .matmul import MatMul
 from .reshape import Reshape
 from .transpose import Transpose
@@ -22,6 +23,7 @@ __all__ = [
     "Exp",
     "Log",
     "Mean",
+    "Index",
     "MatMul",
     "Reshape",
     "Transpose",
