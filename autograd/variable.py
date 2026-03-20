@@ -16,6 +16,7 @@ from .ops import (
     Exp,
     Log,
     Mean,
+    Index,
     MatMul,
     Reshape,
     Transpose,
@@ -227,6 +228,9 @@ class Variable:
                 "In-place modification on a non-leaf Variable that requires grad."
             )
 
+    def __len__(self) -> int:
+        return len(self.data)
+
     # hooks
     def register_hook(self, fn: Callable[["Variable"], None]):
         self._backward_hooks.append(fn)
@@ -264,6 +268,9 @@ class Variable:
 
     def __pow__(self, exp: int | float) -> "Variable":
         return pow(self, exp)
+
+    def __getitem__(self, idx: "int | list | tuple | Variable") -> "Variable":
+        return index(self, idx)
 
     # variable comparisons
     def _coerce_other(self, other):
@@ -564,3 +571,8 @@ def exp(a):
 def log(a):
     a = enforce_tensor(a)
     return _wrap_forward(Log, a)
+
+
+def index(a, idx):
+    a = enforce_tensor(a)
+    return _wrap_forward(Index, a, idx=idx)
