@@ -48,7 +48,9 @@ def cross_entropy(
 
     # loss
     if weight is not None:
-        weight = Tensor(weight, requires_grad=False)
+        if not isinstance(weight, Tensor):
+            weight = Tensor(weight)
+        weight.requires_grad_(False)
         wei = weight[targets]
         loss = nll * wei * mask
     else:
@@ -63,22 +65,3 @@ def cross_entropy(
         raise ValueError(f"Support reductions are [mean, sum], got: {reduction}")
 
     return loss  # pyright: ignore
-
-
-if __name__ == "__main__":
-    logits = Tensor(
-        [
-            [0.0, 1.0, -1.0],
-            [-1.0, 0.5, 0.9],
-            [-2.0, 0.0, 9.0],
-            [-2.0, 0.0, 9.0],
-        ],
-        requires_grad=True,
-    )
-    targets = Tensor([0, 2, 1, -100], requires_grad=True)
-    weight = [1, 0.9, 0.3]
-    loss = cross_entropy(logits, targets, weight=weight)
-    loss.backward()
-    print("===" * 10)
-    print(f"[INFO::cross_entropy] loss: {loss} | type: {type(loss)}")
-    print(f"[INFO::cross_entropy] logits.grad:\n{logits.grad}")
