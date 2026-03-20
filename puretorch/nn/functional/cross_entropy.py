@@ -3,109 +3,82 @@ import numpy as np
 from typing import Literal
 
 from puretorch import Tensor
-from . import log_softmax, _as_cls_const, _broadcast_class_weight
+from . import log_softmax
 
 
 def cross_entropy(
     logits: Tensor,
-    targets: np.ndarray | Tensor,
+    targets: Tensor,
     ignore_idx: int = -100,
-    weight: np.ndarray | list | Tensor | None = None,
+    weight: list | np.ndarray | Tensor | None = None,
     reduction: Literal["mean", "sum"] = "mean",
 ) -> Tensor:
     """
-    Cross-entropy over logits [..., C] and targets:
-      - class indices [...] or
-      - one-hot / soft probs [..., C]
+    Cross Entropy loss over logits for targets.
+    Targets are expected to be ordinal, i.e. index of
+    class label where true.
 
     Args:
-        logits (Tensor): tensor of size [B,C]
-        targets (Tensor): tensor of size [B,]
-        ignore_idx (int): target value that is ignored during loss calculation
-        weight (Tensor, optional): a manual rescaling weight given to
-            each class. If given, it has to be a Tensor of size C.
-            Otherwise, it is treated as if having all ones.
-        reduction (str, optional): reduction applied to output
+        logits (Tensor): logits tensor, shape [B, n_classes]
+        targets (Tensor): targets tensor, shape [B,]
+        ignore_idx (int, default=-100): target value ignored for loss
+        weight (list | np.ndarray | Tensor | None, default=None): rescale
+            loss for given class. Expected shape [n_classes], if `None`,
+            then all classes are equally weighted (as 1).
+        reduction ("mean", "sum", default="mean"): reduction applied to
+            result.
+
     Returns:
-        Tensor with loss as float
+        loss (Tensor): loss value as Tensor
     """
-    # Shapes
-    C = logits.shape[-1]
-    ls = log_softmax(logits, dim=-1)  # [..., C]
-    w = _broadcast_class_weight(weight, logits)  # [..., C] or None
+    assert logits.shape[0] == targets.shape[0], (
+        f"Incorrect batch size. Expected logits and targets to have "
+        f"batch-first and of same size. Got logits {logits.shape} and "
+        f"targets {targets.shape}."
+    )
 
-    # Convert targets to Tensor data for shape/branching (we'll build constants for masks/onehots)
-    if isinstance(targets, Tensor):
-        t_data = targets.data
+    # ignore idx
+    mask = targets.data != ignore_idx
+    targets[~mask] = 0
+    mask = Tensor(mask.astype(float))
+
+    # log-probs and nll
+    log_probs = log_softmax(logits, dim=-1)
+    nll = -log_probs[(np.arange(len(targets)), targets)]
+
+    # loss
+    if weight is not None:
+        weight = Tensor(weight, requires_grad=False)
+        wei = weight[targets]
+        loss = nll * wei * mask
     else:
-        t_data = np.asarray(targets)
+        loss = nll * mask
 
-    # targets are distributions / one-hot [..., C]
-    if t_data.ndim == ls.data.ndim and t_data.shape[-1] == C:
-        t_const = _as_cls_const(
-            t_data.astype(ls.data.dtype, copy=False), ls
-        )  # no-grad constant
-        if w is not None:
-            per_class_term = t_const * ls * w
-        else:
-            per_class_term = t_const * ls
-        loss_map = -per_class_term.sum(dim=-1)
-
-        count_np = np.prod(loss_map.data.shape, dtype=np.int64)
-        count = _as_cls_const(np.array(count_np, dtype=ls.data.dtype), ls)
-
-    # targets are class indices [...]
+    # reduction
+    if reduction.lower() == "mean":
+        loss = loss.sum() / mask.sum()
+    elif reduction.lower() == "sum":
+        loss = loss.sum()
     else:
-        # build one-hot mask for selected classes, with ignore support
-        if t_data.dtype.kind not in "iu":  # ints only
-            raise ValueError(
-                f"Index targets must be integer-like, got dtype {
-                    t_data.dtype
-                } and shape {t_data.shape}"
-            )
-        if t_data.shape != ls.data.shape[:-1]:
-            raise ValueError(
-                f"Index targets must have shape {ls.data.shape[:-1]}, got {
-                    t_data.shape
-                }"
-            )
+        raise ValueError(f"Support reductions are [mean, sum], got: {reduction}")
 
-        # mask of valid (non-ignored) positions [...]
-        valid_mask_np = (t_data != ignore_idx).astype(ls.data.dtype, copy=False)
-        valid_mask = _as_cls_const(valid_mask_np, ls)  # no-grad
+    return loss  # pyright: ignore
 
-        # one-hot [..., C] only for valid indices
-        # build flattened one-hot
-        flat_targets = t_data.reshape(-1)
-        flat_valid = flat_targets != ignore_idx
-        onehot_np = np.zeros((flat_targets.size, C), dtype=ls.data.dtype)
-        if flat_valid.any():
-            onehot_np[
-                np.arange(flat_targets.size)[flat_valid], flat_targets[flat_valid]
-            ] = 1.0
-        onehot = _as_cls_const(onehot_np.reshape(*t_data.shape, C), ls)  # no-grad
 
-        if w is not None:
-            per_class = onehot * (ls * w)
-        else:
-            per_class = onehot * ls
-
-        picked = per_class.sum(dim=-1)
-        loss_map = -(picked * valid_mask)
-        # Count valid positions
-        count_np = valid_mask_np.sum(dtype=np.int64)
-        count = _as_cls_const(np.array(count_np, dtype=ls.data.dtype), ls)
-
-    # out-logic
-    num = loss_map.sum()
-    if reduction is None or reduction == "mean":
-        if count.data == 0:
-            return num * _as_cls_const(np.array(0.0, dtype=ls.data.dtype), ls)
-        return num / count
-    elif reduction == "sum":
-        return num
-    else:
-        # better error msg...
-        raise ValueError(
-            f"Got unexpected reduction: {reduction}. Use 'mean', 'sum', or None."
-        )
+if __name__ == "__main__":
+    logits = Tensor(
+        [
+            [0.0, 1.0, -1.0],
+            [-1.0, 0.5, 0.9],
+            [-2.0, 0.0, 9.0],
+            [-2.0, 0.0, 9.0],
+        ],
+        requires_grad=True,
+    )
+    targets = Tensor([0, 2, 1, -100], requires_grad=True)
+    weight = [1, 0.9, 0.3]
+    loss = cross_entropy(logits, targets, weight=weight)
+    loss.backward()
+    print("===" * 10)
+    print(f"[INFO::cross_entropy] loss: {loss} | type: {type(loss)}")
+    print(f"[INFO::cross_entropy] logits.grad:\n{logits.grad}")
