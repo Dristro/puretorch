@@ -8,9 +8,12 @@ class Context:
         self._saved_tensors: Tuple = ()
         self._version_snapshot: int = 0
 
-    def save_for_backward(self, *tensors):
-        """Save tensors for backward."""
-        self._saved_tensors = tuple(tensors)
+    def save_for_backward(self, *args):
+        """
+        Save args for backward.
+        Data is stored as a Tuple, please be careful with ordering.
+        """
+        self._saved_tensors = tuple(args)
 
     @property
     def saved_tensors(self):
