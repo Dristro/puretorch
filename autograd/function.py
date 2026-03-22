@@ -13,5 +13,5 @@ class Function:
         raise NotImplementedError
 
     @staticmethod
-    def barkward(ctx: Context, grad_output: np.ndarray):
+    def backward(ctx: Context, grad_output: np.ndarray):
         raise NotImplementedError
