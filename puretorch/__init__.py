@@ -25,7 +25,7 @@ globals().update(
     {name: member.value for name, member in DType.__members__.items()}
 )
 
-__version__ = "1.3.0+refactor"
+__version__ = "1.3.0+dev"
 
 __all__ = [
     "Device",

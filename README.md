@@ -17,11 +17,6 @@
 
 ---
 
-**You are on the `refactor` branch**. I'm currently working on depricating autograd, instead have puretorch as the
-backbone for all autograd related operations too.
-
----
-
 # Version Info
 
 **Current Version**: **1.1.0+dev**
