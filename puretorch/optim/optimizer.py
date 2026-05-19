@@ -20,7 +20,7 @@ class Optimizer:
         params: iterable of PureTorch.Tensor's. Parameters to optimized
     """
 
-    def __init__(self, params: Iterable[nn.Parameter], defaults: dict):
+    def __init__(self, params: Iterable[nn.Parameter], defaults: dict | None):
         """
         Initializes param_groups as a list of dicts. Where each dict
         contains a single kv pair with key `params` associated with a

@@ -1,8 +1,7 @@
-from .sgd import SGD
 from .optimizer import Optimizer
+from .sgd import SGD
 
-__all__ = {
-    "SGD",
+__all__ = [
     "Optimizer",
-
-}
+    "SGD",
+]
