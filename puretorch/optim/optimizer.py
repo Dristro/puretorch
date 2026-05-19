@@ -53,9 +53,7 @@ class Optimizer:
             param_group (dict)
 
         """
-        assert isinstance(param_group, dict), f"param group must be a dict, got {
-            type(param_group)
-        }"
+        assert isinstance(param_group, dict), f"param group must be a dict, got {type(param_group)}"
 
         params = param_group["params"]
         if isinstance(params, nn.Parameter):
