@@ -1,7 +1,6 @@
 import numpy as np
 
 from puretorch import Tensor
-from autograd import Variable
 from typing import Literal, get_args
 
 AllowedName = Literal[
@@ -22,7 +21,7 @@ class Parameter(Tensor):
 
     def __init__(
         self,
-        data: int | float | list | tuple | np.ndarray | Tensor | Variable,
+        data: int | float | list | tuple | np.ndarray | Tensor,
         name: AllowedName,
         requires_grad: bool = True,
     ):

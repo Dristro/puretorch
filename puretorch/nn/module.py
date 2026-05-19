@@ -68,7 +68,7 @@ class Module:
         for k, m in self._modules.items():
             sub.append(f"({k}): {repr(m)}")
         body = "\n  ".join(sub)
-        rep = f"{self.__class__.__name__}({self.extra_repr()})"
+        rep = f"{self.__class__.__name__}"
         return rep if not sub else f"{rep}\n  {body}"
 
     def __setattr__(self, key: str, value: Any):

@@ -55,9 +55,9 @@ class Linear(nn.Module):
             list of outputs of the layer
         """
         # assert isinstance(x, Tensor), "Input x must be a Tensor."
-        assert x.data.shape[-1] == self.in_features, f"Expected input features {
-            self.in_features
-        }, but got {x.data.shape[-1]}."
+        err = f"Expected input features {self.in_features}, "\
+              f"but got {x.data.shape[-1]}."
+        assert x.data.shape[-1] == self.in_features, err
         out = x @ self.weights.T
         if self.bias is not None:
             out = out + self.bias

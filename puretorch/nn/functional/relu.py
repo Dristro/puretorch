@@ -1,9 +1,9 @@
 import numpy as np
 
 from puretorch import Tensor
-from autograd.context import Context
-from autograd.function import Function
-from autograd import enforce_tensor, _wrap_forward
+from puretorch.context import Context
+from puretorch.function import Function
+from puretorch import enforce_tensor, _wrap_forward
 
 
 class ReLU(Function):
