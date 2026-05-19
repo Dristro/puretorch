@@ -16,7 +16,13 @@ class Device:
     data between devices.
     """
 
-    def __init__(self, name: SupportedDevices):
+    def __init__(self, name: str | SupportedDevices):
+        """
+        Ensure that device name is 'cpu', otherwise, init will raise.
+
+        Args:
+            name: name of device
+        """
         assert name in get_args(SupportedDevices), (
             f"Unsupported device {name}, expected {get_args(SupportedDevices)}"
         )
